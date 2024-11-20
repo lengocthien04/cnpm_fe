@@ -1,0 +1,193 @@
+const userInputs = [
+  'company_code',
+  'login_id',
+  'name',
+  'authority_group',
+  'pic_code',
+  'pic_number',
+  'phone',
+  'affiliation',
+  'location',
+  'department',
+  'date_of_employment',
+  'zip_code',
+  'address_name',
+  'address_number',
+  'telephone',
+  'email',
+  'note',
+  'password'
+] as const
+
+const vendorInputs = [
+  'vendor_code',
+  'manage_code',
+  'vendor_name',
+  'vendor_short_name',
+  'category',
+  'ceo',
+  'pic',
+  'sub_pic',
+  'telephone',
+  'mobile',
+  'fax',
+  'business_number',
+  'basic_receivables',
+  'current_receivables',
+  'payment_date',
+  'zip_code',
+  'address',
+  'house_number',
+  'store_type',
+  'store_item',
+  'ups',
+  'vat_classification',
+  'email',
+  'order_intake_id',
+  'note',
+  'memo',
+  'limit_amount',
+  'open_date',
+  'taxbill_pic',
+  'taxbill_pic_email',
+  'taxbill_pic_phone',
+  'taxbill_subpic',
+  'taxbill_subpic_email',
+  'taxbill_subpic_phone',
+  'sms',
+  'bank_name',
+  'bank_account',
+  'bank_owner',
+  'bank_note',
+  'bill_type',
+  'order_quick_id',
+  'door_password',
+  'door_card',
+  'door_key',
+  'latitude',
+  'longtitude'
+] as const
+
+const locationInputs = [
+  'location_code',
+  'location_name',
+  'zip_code',
+  'address',
+  'telephone',
+  'fax',
+  'mobile',
+  'note'
+] as const
+
+const itemInputs = [
+  'id',
+  'created_at',
+  'updated_at',
+  'item_code',
+  'larger_category',
+  'middle_category',
+  'minor_category',
+  'cafe24_code',
+  'manage_code',
+  'item_name',
+  'standard',
+  'item_group',
+  'maker',
+  'quantity_per_box',
+  'color_name',
+  'color_code',
+  'unit_price_sales',
+  'unit_price_purchase',
+  'ppu',
+  'minimum_amount',
+  'maximum_amount',
+  'warehouse_location',
+  'purchase_place',
+  'product_weight',
+  'note',
+  'tax_category',
+  'images',
+  'unit_barcodes',
+  'box_barcodes',
+  'profit_margin'
+] as const
+
+const salesInputs = [
+  'pic_id',
+  'vendor_id',
+  'item_id',
+  'location_id',
+  'item_pic',
+  'item_name',
+  'quantity',
+  'price',
+  'tax',
+  'amount',
+  'standard',
+  'basic_code',
+  'vendor_category',
+  'purchase_shop',
+  'discount',
+  'vendor_manage_code',
+  'item_group',
+  'minor_category',
+  'note',
+  'item_note',
+  'location',
+  'maker',
+  'basic_sales_price',
+  'zip_code',
+  'address',
+  'telephone',
+  'mobile',
+  'fax',
+  'classification',
+  'reflect_account',
+  'bill',
+  'record_pic',
+  'statement',
+  'delivery_state',
+  'delivery_type',
+  'date',
+  'delivery_date',
+  'updated_by',
+  'supply_value',
+  'enroll_by'
+] as const
+export type SalesInputName = (typeof salesInputs)[number]
+
+const deliveryInputs = [
+  'delivery_state',
+  'delivery_type',
+  'ordering',
+  'date',
+  'departure_time',
+  'vendor_category',
+  'pic_id',
+  'sales',
+  'delivery_picture',
+  'user',
+  'delivery_type_price',
+  'start_time',
+  'end_time'
+] as const
+export type DeliveryInputName = (typeof deliveryInputs)[number]
+
+const modelInputs = ['user', 'item', 'vendor', 'location', 'sales'] as const
+
+const specialInputs = ['vendor_entity', 'item_entity', 'pic_entity', 'location_entity', 'deleted_at'] as const
+
+const inputNamesSet = new Set([
+  ...userInputs,
+  ...vendorInputs,
+  ...locationInputs,
+  ...itemInputs,
+  ...salesInputs,
+  ...modelInputs,
+  ...specialInputs,
+  ...deliveryInputs
+] as const)
+
+export const InputFieldNames = Array.from(inputNamesSet)
+
+export type InputFieldName = (typeof InputFieldNames)[number]

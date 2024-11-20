@@ -1,0 +1,26 @@
+.wrapper {
+  width: full;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  background-color: black;
+}
+
+.main {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 10;
+  display: flex;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem; /* equivalent to rounded-2xl */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* equivalent to shadow-sm */
+}
