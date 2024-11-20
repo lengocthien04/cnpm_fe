@@ -4,6 +4,7 @@ import MainLayout from "../layouts/MainLayout";
 import HomePage from "../pages/HomePage";
 import { AppContext } from "../contexts/app.context";
 import mainPath from "../constants/path";
+import CartPage from "../pages/CartPage";
 
 function MainRouteWrapper() {
   const { isAuthenticated } = useContext(AppContext);
@@ -25,6 +26,10 @@ const MainRoute: RouteObject = {
     {
       path: mainPath.home,
       element: <HomePage />,
+    },
+    {
+      path: mainPath.cart,
+      element: <CartPage />,
     },
   ],
 };

@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        "primary-blue": "#3B5FAD", // Custom primary blue color
+        "primary-blue": "#7373DC", // Custom primary blue color
         "primary-blue-unhover": "#5A77D6", // Custom unhovered blue color
         "gray-text": "#6E7B8A", // Custom gray text color
         "alert-red": "#E74C3C", // Custom alert red color
