@@ -27,6 +27,7 @@ const MainRoute: RouteObject = {
       path: mainPath.home,
       element: <HomePage />,
     },
+
     {
       path: mainPath.cart,
       element: <CartPage />,
