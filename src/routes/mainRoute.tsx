@@ -26,6 +26,7 @@ const MainRoute: RouteObject = {
       path: mainPath.home,
       element: <HomePage />,
     },
+    
   ],
 };
 
