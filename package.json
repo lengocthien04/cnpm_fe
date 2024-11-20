@@ -1,5 +1,5 @@
 {
-  "name": "data-base-fe",
+  "name": "cnpm-fe",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.28",
+    "@fortawesome/free-solid-svg-icons": "^6.7.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@hookform/resolvers": "^3.9.1",
     "@tanstack/react-query": "^5.60.6",
     "@types/yup": "^0.29.14",
