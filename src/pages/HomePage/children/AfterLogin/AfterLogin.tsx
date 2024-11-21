@@ -1,5 +1,21 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+
+const notifications = [
+  {
+    id: 1,
+    title: "Notice about the 003-CS2 Printer Malfunction",
+    number: "SPSO No.212 - Monday,30/09/2024",
+    description: "From September 30, 2024, H6-CS2 Printer Stopped All Operations due to Budget Limitations. Students please use the printers in the neighboring buildings.",
+  },
+  {
+    id: 2,
+    title: "Notice about the 001-CS1 Printer Malfunction",
+    number: "SPSO No.211 - Monday,27/09/2024",
+    description: "From September 27, 2024, H6-CS2 Printer Stopped All Operations due to Budget Limitations. Students please use the printers in the neighboring buildings.",
+  },
+];
+
 export default function AfterLogin() {
   return (
     <>
@@ -24,46 +40,25 @@ export default function AfterLogin() {
             Add notification (SPSO)
           </button>
         </div>
-        <div className="relative bg-[#D9D9D9] rounded-[47px] mt-12 mr-10 ml-24">
-          <FontAwesomeIcon
-            icon={faUser}
-            className="absolute w-[50px] h-[50px] top-16 left-32 text-black text-[1.5rem] rounded-full bg-white flex items-center justify-center p-5"
-          />
-
-          <div className="pl-80 pt-16 pb-20">
+        {notifications.map(nofitication => (
+          <div key={nofitication.id} className="relative bg-[#D9D9D9] rounded-[47px] mt-12 mr-10 ml-24">
+            <FontAwesomeIcon
+              icon={faUser}
+              className="absolute w-[50px] h-[50px] top-16 left-32 text-black text-[1.5rem] rounded-full bg-white flex items-center justify-center p-5"
+            />
+            <div className="pl-80 pt-16 pb-20">
             <p className="font-inter font-bold text-[36px] leading-[43.57px] text-[#0F4578]">
-              Notice about the 003-CS2 Printer Malfunction
+              {nofitication.title}
             </p>
             <p className="font-inter font-extrabold text-[27px] leading-[32.68px] text-[#000000] mt-[20px] mb-[12px]">
-              SPSO No.212 - Monday,30/09/2024
+              {nofitication.number}
             </p>
-            <p className="font-inter font-semibold text-[22px] leading-[26.63px] text-[#6E6C6C]">
-              From september 30, 2024,H6-CS2 Printer Stopped All Operations due
-              to Budget Limitations. <br />
-              Students please use the printers in the neighboring buildings.
+            <p className="font-inter font-semibold text-[22px] leading-[26.63px] text-[#6E6C6C] pr-[200px]">
+              {nofitication.description}
             </p>
           </div>
-        </div>
-        <div className="relative bg-[#D9D9D9] rounded-[47px] mt-12 mr-10 ml-24">
-          <FontAwesomeIcon
-            icon={faUser}
-            className="absolute w-[50px] h-[50px] top-16 left-32 text-black text-[1.5rem] rounded-full bg-white flex items-center justify-center p-5"
-          />
-          <div className="pl-80 pt-16 pb-20">
-            <p className="font-inter font-bold text-[36px] leading-[43.57px] text-[#0F4578]">
-              Notice about the 001-CS1 Printer Malfunction
-            </p>
-            <p className="font-inter font-extrabold text-[27px] leading-[32.68px] text-[#000000] mt-[20px] mb-[12px]">
-              SPSO No.211 - Monday,27/09/2024
-            </p>
-            <p className="font-inter font-semibold text-[22px] leading-[26.63px] text-[#6E6C6C]">
-              From september 27, 2024,H6-CS2 Printer Stopped All Operations due
-              to Budget Limitations.
-              <br />
-              Students please use the printers in the neighboring buildings.
-            </p>
           </div>
-        </div>
+        ))}
       </div>
     </>
   );

@@ -1,5 +1,3 @@
-import printer from "./images/mayin.jpg"
-
 export default function BeforeLogin() {
     return (
         <div className="flex justify-center items-center">
@@ -9,7 +7,7 @@ export default function BeforeLogin() {
                 <p className="font-inter font-normal text-[16px] leading-[22.4px] text-[#1E1E1E] mb-[12px]">We are a smart printing service system</p>
                 <p className="font-inter font-normal text-[16px] leading-[22.4px] text-[#1E1E1E]">In the pursuit of knowledge, this service will provide students, teachers their critical needs of printing paper ^^</p>
             </div>
-            <img src={printer} className="w-[480px] h-[472px]"/>
+            <img src="public/mayin.jpg" className="w-[480px] h-[472px]"/>
         </div>
     )
 }
