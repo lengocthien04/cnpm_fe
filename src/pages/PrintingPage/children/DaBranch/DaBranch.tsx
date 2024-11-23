@@ -95,16 +95,22 @@ export default function DaBranch() {
           <div className="w-1/3 mt-[20px] mb-[20px]">
             <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] pl-[60px] pb-[8px]">Loại máy in</p>
             <div className="flex h-1/4 items-center pl-[24px]">
-              <input type="checkbox"></input>
-              <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] ml-[2px]">Máy có sẵn</p>
+              <label className="flex items-center cursor-pointer">
+                <input type="checkbox" className="mr-2" />
+                <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000]">Máy có sẵn</p>
+              </label>
             </div>
             <div className="flex h-1/4 items-center pl-[24px]">
-              <input type="checkbox"></input>
-              <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] ml-[2px]">Máy in màu</p>
+              <label className="flex items-center cursor-pointer">
+                <input type="checkbox" className="mr-2" />
+                <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000]">Máy in màu</p>
+              </label>
             </div>
             <div className="flex h-1/4 items-center pl-[24px]">
-              <input type="checkbox"></input>
-              <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] ml-[2px]">Máy in hai mặt</p>
+              <label className="flex items-center cursor-pointer">
+                <input type="checkbox" className="mr-2" />
+                <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000]">Máy in hai mặt</p>
+              </label>
             </div>
           </div>
 
@@ -115,8 +121,10 @@ export default function DaBranch() {
                 <div key={index} className="flex flex-col mr-[24px]">
                   {group.map((location, idx) => (
                     <div className="flex items-center mb-4 last:mb-0" key={idx}>
-                      <input type="checkbox" />
-                      <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] ml-2">{location}</p>
+                      <label className="flex items-center cursor-pointer">
+                        <input type="checkbox" />
+                        <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] ml-2">{location}</p>
+                      </label>
                     </div>
                   ))}
                 </div>
@@ -127,12 +135,16 @@ export default function DaBranch() {
           <div className="w-1/3 mt-[20px] mb-[20px] ">
             <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] pl-[60px]">Sắp xếp theo</p>
             <div className="flex h-1/3 items-center pl-[24px]">
-              <input type="radio" name="sorting"></input>
-              <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] ml-[2px]">Condition 1</p>
+              <label className="flex items-center cursor-pointer">
+                <input type="radio" name="sorting"></input>
+                <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] ml-[2px]">Condition 1</p>
+              </label>
             </div>
             <div className="flex h-1/3 items-center pl-[24px]">
-              <input type="radio" name="sorting"></input>
-              <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] ml-[2px]">Condition 2</p>
+              <label className="flex items-center cursor-pointer">
+                <input type="radio" name="sorting"></input>
+                <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] ml-[2px]">Condition 2</p>
+              </label>
             </div>
           </div>
 
@@ -151,7 +163,7 @@ export default function DaBranch() {
             <p className="pt-[8px] pl-[8px] pb-[16px] font-[inter] font-semibold text-[24px] leading-[28.8px] text-[#1E1E1E]">Máy {printer.id}</p>
             <p className="pl-[8px] font-[inter] font-semibold text-[16px] leading-[22.4px] text-[#1E1E1E]">Phòng: {printer.address}</p>
             <p className="pl-[8px] pb-[16px] font-[inter] font-normal text-[16px] leading-[22.4px] text-[#1E1E1E] text-white">Hàng đợi: {printer.queue}</p>
-            <button className="absolute right-8 bottom-8 bg-[#0B4FB7] px-[6px] border border-solid border-black rounded-[4px] text-white">Button</button>
+            <button className="absolute right-8 bottom-8 bg-[#0B4FB7] px-[12px] border border-solid border-black rounded-[4px] text-white font-[inter] text-[20px]">Button</button>
           </div>
         ))}
       </div>
