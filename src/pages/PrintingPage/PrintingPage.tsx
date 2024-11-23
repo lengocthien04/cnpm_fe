@@ -31,8 +31,8 @@ export default function PrintingPage() {
             {!isChildRoute && (
             <>
                 <div className="mt-[48px] ml-[48px] mb-[48px]">
-                    <p className="font-inter font-semibold text-[24px] leading-[28.8px] text-[#1E1E1E]">In ấn</p>
-                    <p className="font-inter font-normal text-[20px] leading-[24px] text-[#1E1E1E]">Chọn cơ sở in</p>
+                    <p className="font-[inter] font-semibold text-[24px] leading-[28.8px] text-[#1E1E1E]">In ấn</p>
+                    <p className="font-[inter] font-normal text-[20px] leading-[24px] text-[#1E1E1E]">Chọn cơ sở in</p>
                 </div>
 
                 {branches.map((branch) => (
@@ -40,10 +40,10 @@ export default function PrintingPage() {
                         key={branch.id}
                         className="ml-[48px] mb-[48px] mr-[48px] border border-solid border-black rounded-[8px]"
                     >
-                        <p className="font-inter font-semibold text-[24px] leading-[28.8px] text-[#1E1E1E] mb-[12px] pt-[16px] pl-[16px]">
+                        <p className="font-[inter] font-semibold text-[24px] leading-[28.8px] text-[#1E1E1E] mb-[12px] pt-[16px] pl-[16px]">
                             {branch.name}
                         </p>
-                        <p className="font-inter font-normal text-[16px] leading-[22.4px] text-[#1E1E1E] mb-[6px] pl-[16px]">
+                        <p className="font-[inter] font-normal text-[16px] leading-[22.4px] text-[#1E1E1E] mb-[6px] pl-[16px]">
                             Máy hiện có: {branch.availablePrinter}
                         </p>
                         <div className="pl-[16px] pb-[16px]">

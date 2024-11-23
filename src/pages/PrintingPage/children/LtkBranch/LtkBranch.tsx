@@ -91,7 +91,7 @@ export default function LtkBranch() {
           Lọc
         </button>
 
-        {isFilterVisible && (<div className="flex bg-[#C0C0C0] rounded-[10px] absolute w-full z-[1] shadow-[5px_10px_15px_rgba(0,0,0,0.3)]">
+        {isFilterVisible && (<div className="flex bg-[#C0C0C0] rounded-[10px] absolute w-full min-h-[200px] z-[1] shadow-[5px_10px_15px_rgba(0,0,0,0.3)]">
           <div className="w-1/3 mt-[20px] mb-[20px]">
             <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] pl-[60px] pb-[8px]">Loại máy in</p>
             <div className="flex h-1/4 items-center pl-[24px]">
@@ -109,12 +109,12 @@ export default function LtkBranch() {
           </div>
 
           <div className="w-1/3 border-l border-r mt-[20px] mb-[20px] ">
-            <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] pl-[60px]">Vị trí</p>
+            <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] pl-[60px] pb-4">Vị trí</p>
             <div className="flex pl-[24px]">
               {groups.map((group, index) => (
                 <div key={index} className="flex flex-col mr-[24px]">
                   {group.map((location, idx) => (
-                    <div className="flex items-center" key={idx}>
+                    <div className="flex items-center mb-[4px] last:mb-0" key={idx}>
                       <input type="checkbox" />
                       <p className="font-[inter] font-normal text-[16px] leading-[20.59px] text-[#000000] ml-2">{location}</p>
                     </div>
@@ -136,7 +136,12 @@ export default function LtkBranch() {
             </div>
           </div>
 
-          <button className="absolute bottom-[20px] right-[20px] font-[inter] font-bold text-[16px] leading-[20.59px] text-[#FFFFFF] bg-[#030391] px-[24px] py-[4px] rounded-full ">Chọn</button>
+          <button
+            onClick={handleFilterClick}
+            className="absolute bottom-[20px] right-[20px] font-[inter] font-bold text-[16px] leading-[20.59px] text-[#FFFFFF] bg-[#030391] px-[24px] py-[4px] rounded-full "
+          >
+            Chọn
+          </button>
         </div>)}
       </div>
 
