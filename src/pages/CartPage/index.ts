@@ -1,3 +1,3 @@
-import CartPage from "./CartPage";
+import PrintingPage from "./PrintingPage";
 
-export default CartPage;
+export default PrintingPage;

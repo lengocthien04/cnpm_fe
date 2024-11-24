@@ -1,4 +1,4 @@
-export default function CartPage() {
+export default function PrintingPage() {
   const sum = (a: number, b: number) => {
     return a + b;
   };
