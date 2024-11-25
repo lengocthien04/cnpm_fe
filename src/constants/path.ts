@@ -2,8 +2,9 @@
 const mainPath = {
   home: "/",
   login: "/login",
-  cart: "/cart",
   printing: "/printing",
+  pringtinghistory: "/printinghistory",
+  payment: "/payment",
 };
 
 export default mainPath;

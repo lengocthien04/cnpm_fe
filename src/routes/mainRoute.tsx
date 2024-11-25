@@ -4,10 +4,10 @@ import MainLayout from "../layouts/MainLayout";
 import HomePage from "../pages/HomePage";
 import { AppContext } from "../contexts/app.context";
 import mainPath from "../constants/path";
-import CartPage from "../pages/CartPage";
 import PrintingPage from "../pages/PrintingPage/PrintingPage";
 import LtkBranch from "../pages/PrintingPage/children/LtkBranch/LtkBranch";
 import DaBranch from "../pages/PrintingPage/children/DaBranch/DaBranch";
+import PrintingPage from "../pages/CartPage";
 
 function MainRouteWrapper() {
   const { isAuthenticated } = useContext(AppContext);
@@ -31,8 +31,8 @@ const MainRoute: RouteObject = {
       element: <HomePage />,
     },
     {
-      path: mainPath.cart,
-      element: <CartPage />,
+      path: mainPath.printing,
+      element: <PrintingPage />,
     },
     {
       path: mainPath.printing,
