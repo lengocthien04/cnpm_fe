@@ -7,7 +7,6 @@ import mainPath from "../constants/path";
 import PrintingPage from "../pages/PrintingPage/PrintingPage";
 import LtkBranch from "../pages/PrintingPage/children/LtkBranch/LtkBranch";
 import DaBranch from "../pages/PrintingPage/children/DaBranch/DaBranch";
-import PrintingPage from "../pages/CartPage";
 
 function MainRouteWrapper() {
   const { isAuthenticated } = useContext(AppContext);
