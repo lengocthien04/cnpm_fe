@@ -27,7 +27,6 @@ const MainRoute: RouteObject = {
       path: mainPath.home,
       element: <HomePage />,
     },
-
     {
       path: mainPath.printing,
       element: <PrintingPage />,
