@@ -10,8 +10,9 @@ export default {
         "primary-blue": "#7373DC", // Custom primary blue color
         "primary-blue-unhover": "#5A77D6", // Custom unhovered blue color
         "primary-purple": "#EADDFF",
+        "button-color": "#0B4FB7",
         "alert-red": "#E74C3C", // Custom alert red color
-        "primary-green": "#28A745", // Custom green color for success messages, etc.
+        "primary-background": "#FCF8F8", // Custom green color for success messages, etc.
         "secondary-gray": "#B0B0B0", // Secondary gray for borders or background elements
       },
       spacing: {

@@ -14,7 +14,7 @@ export default function MainHeader() {
     },
     {
       name: "Lịch sử in ấn",
-      path: mainPath.pringtinghistory,
+      path: mainPath.printinghistory,
     },
     {
       name: "Thanh toán",
