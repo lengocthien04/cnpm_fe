@@ -34,7 +34,7 @@ export default function LoginPage() {
   const loginForms: InputField[] = [
     {
       name: "login_id",
-      title: "login id",
+      title: "Mã số sinh viên",
       errorMsg: errors.login_id?.message,
       svgData: (
         <svg
@@ -53,7 +53,7 @@ export default function LoginPage() {
     },
     {
       name: "password",
-      title: "Password",
+      title: "Mật khẩu",
       errorMsg: errors.password?.message,
       svgData: (
         <svg
@@ -113,11 +113,11 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="w-full min-h-[80vh] flex flex-col items-center justify-between">
-      <div className="w-full flex flex-col items-center justify-center">
+    <div className="w-full min-h-[85vh] flex flex-col items-center justify-between bg-primary-background">
+      <div className="w-[50vw] flex flex-col items-center justify-center bg-white">
         <img
-          src="/images/login-image.png"
-          alt="Woodong System"
+          src="public/01_logobachkhoasang 1.png"
+          alt="Bach Khoa Logo"
           className="mt-32 w-full max-w-xs object-contain"
         />
         <form
@@ -125,15 +125,17 @@ export default function LoginPage() {
           onSubmit={onSubmit}
         >
           {loginForms.map((field) => (
-            <AccountInput
-              key={field.name}
-              name={field.name}
-              register={register}
-              type={field.type || "text"}
-              errorMessage={field.errorMsg}
-              placeholder={field.title}
-              label={field.svgData}
-            />
+            <div className="w-full mb-[2rem] " key={field.name}>
+              <p>{field.title}</p>
+              <AccountInput
+                name={field.name}
+                register={register}
+                type={field.type || "text"}
+                errorMessage={field.errorMsg}
+                placeholder={field.title}
+                label={field.svgData}
+              />
+            </div>
           ))}
           <div className="w-full flex justify-end mt-0">
             <div className="flex items-center">
@@ -151,7 +153,7 @@ export default function LoginPage() {
             type="submit"
             className="w-full py-4 mt-8 text-2xl font-bold text-white bg-primary-blue-unhover hover:bg-primary-blue rounded-md"
           >
-            Login
+            Sign in
           </button>
         </form>
       </div>
