@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function MainFooter() {
   return (
-    <div className="flex flex-col bg-primary-blue md:flex-row justify-between items-stretch gap-4 py-[2rem] mt-[3rem]">
+    <div className="flex flex-col bg-primary-blue md:flex-row justify-between items-stretch gap-4 py-[2rem]">
       <div className="basis-1/2 flex flex-col items-center justify-center text-center h-full">
         <img
           src="public/01_logobachkhoa.png"

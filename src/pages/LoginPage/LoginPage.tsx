@@ -113,7 +113,7 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-between">
+    <div className="w-full min-h-[80vh] flex flex-col items-center justify-between">
       <div className="w-full flex flex-col items-center justify-center">
         <img
           src="/images/login-image.png"
