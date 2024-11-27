@@ -8,6 +8,7 @@ import PrintingPage from "../pages/PrintingPage/PrintingPage";
 import LtkBranch from "../pages/PrintingPage/children/LtkBranch/LtkBranch";
 import DaBranch from "../pages/PrintingPage/children/DaBranch/DaBranch";
 import PrintingHistoryPage from "../pages/PrintingHistoryPage";
+import PaymentPage from "../pages/PaymentPage";
 
 function MainRouteWrapper() {
   const { isAuthenticated } = useContext(AppContext);
@@ -52,6 +53,7 @@ const MainRoute: RouteObject = {
       path: mainPath.printinghistory,
       element: <PrintingHistoryPage />,
     },
+    { path: mainPath.payment, element: <PaymentPage /> },
   ],
 };
 
