@@ -54,7 +54,7 @@ export default function MainHeader() {
         </div>
       ) : (
         <a
-          className="text-[2.4rem] font-bold text-white bg-[#4B4DD6] p-2  hover:bg-blue-100 hover:text-blue-300 rounded-md"
+          className="text-[2.4rem] font-bold text-white bg-[#4B4DD6] p-4  hover:bg-blue-100 hover:text-blue-300 rounded-md"
           href={mainPath.login}
         >
           Đăng nhập
