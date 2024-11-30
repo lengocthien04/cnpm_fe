@@ -1,6 +1,6 @@
 const config = {
   maxSizeUploadAvatar: 5242880, // bytes
-  ApiURL: "",
+  ApiURL: "http://localhost:8000",
 };
 
 export default config;
