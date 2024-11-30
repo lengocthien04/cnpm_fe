@@ -2,9 +2,9 @@ import { SQLModel } from "./common.type";
 import { PrintjobModel } from "./printjob.type";
 
 export interface NotifyCreate {
-  receiver_ids: string;
+  receiver_ids: string[];
   message: string;
-  printjob_id: string;
+  printjob_id?: string;
 }
 
 export interface NotifyModel extends NotifyCreate, SQLModel {
@@ -13,4 +13,9 @@ export interface NotifyModel extends NotifyCreate, SQLModel {
 
 export interface NotifyList {
   data: NotifyModel[];
+}
+
+export interface NotifyQueryConfig {
+  receiver_ids?: string[];
+  printjob_id?: string;
 }

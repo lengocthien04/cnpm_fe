@@ -6,20 +6,19 @@ import mainPath from "../../constants/path";
 
 export default function UserPage() {
   const { profile } = useContext(AppContext);
-  console.log(profile);
   return (
-    <div className="mt-[14px] px-[40px]">
-      <p className="font-bold text-[40px] mb-[24px]">Thông tin</p>
+    <div className="mt-[14px] px-[40px] min-h-[70vh] py-[1rem]">
+      <p className="font-bold text-[40px] py-[3rem] ">Thông tin</p>
 
       <div className="mb-[24px]">
         <div className="bg-primary-blue px-4 py-2">
           <p className="text-white font-bold text-[24px]">Thông tin cá nhân</p>
         </div>
-        <div className="flex">
+        <div className="flex py-[3rem]">
           <div className="w-1/4 p-[8px]">
             <FontAwesomeIcon
               icon={faUser}
-              className="bg-[#ccc] w-4/5 h-full rounded-[16px]"
+              className="bg-[#ccc] w-4/5 h-full rounded-[16px] p-[2rem]"
             />
           </div>
 

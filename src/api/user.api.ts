@@ -25,7 +25,7 @@ const userApi = {
     return http.delete<string>(url, { data: requestBody });
   },
   listUsers() {
-    return http.get<SuccessReponse<UserModel[]>>(`${url}/list`);
+    return http.get<UserModel[]>(`${url}/list`);
   },
   listUserPrintLogs() {
     return http.get<SuccessReponse<PrintjobModel[]>>(`${url}/printlogs`);
