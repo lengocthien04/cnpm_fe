@@ -7,7 +7,7 @@ import MainLayout from "../layouts/MainLayout";
 
 function AuthenticationRouteWrapper() {
   const { isAuthenticated } = useContext(AppContext);
-  return true ? (
+  return !isAuthenticated ? (
     <MainLayout>
       <Outlet />
     </MainLayout>

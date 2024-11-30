@@ -1,21 +1,20 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import userApi from "../../api/user.api";
-import { UserQueryConfig } from "../../types/user.type";
 
-const useListUsers = (qf: UserQueryConfig) => {
-  return useQuery({
-    queryKey: ["user", qf],
-    queryFn: () => userApi.listUsers(qf),
-    enabled: !!qf,
-  });
-};
+// const useListUsers = (qf: UserQueryConfig) => {
+//   return useQuery({
+//     queryKey: ["user", qf],
+//     queryFn: () => userApi.listUsers(qf),
+//     enabled: !!qf,
+//   });
+// };
 
-const useGetUserById = (id: string) => {
-  return useQuery({
-    queryKey: ["user", id],
-    queryFn: () => userApi.getUserById(id),
-  });
-};
+// const useGetUserById = (id: string) => {
+//   return useQuery({
+//     queryKey: ["user", id],
+//     queryFn: () => userApi.getUserById(id),
+//   });
+// };
 
 // ! Mutations
 
@@ -37,20 +36,20 @@ const useCreateMultipleUsers = () => {
   });
 };
 
-const useUpdateUserById = (id: string) => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: userApi.updateUserById,
-    onSuccess() {
-      queryClient.invalidateQueries({
-        queryKey: ["user"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["user", id],
-      });
-    },
-  });
-};
+// const useUpdateUserById = (id: string) => {
+//   const queryClient = useQueryClient();
+//   return useMutation({
+//     mutationFn: userApi.updateUserById,
+//     onSuccess() {
+//       queryClient.invalidateQueries({
+//         queryKey: ["user"],
+//       });
+//       queryClient.invalidateQueries({
+//         queryKey: ["user", id],
+//       });
+//     },
+//   });
+// };
 
 const useDeleteUsers = () => {
   const queryClient = useQueryClient();
@@ -65,10 +64,7 @@ const useDeleteUsers = () => {
 };
 
 const userQuery = {
-  useListUsers,
-  useGetUserById,
   mutation: {
-    useUpdateUserById,
     useCreateMultipleUsers,
     useUserLogin,
     useDeleteUsers,

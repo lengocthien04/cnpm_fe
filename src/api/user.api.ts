@@ -1,32 +1,24 @@
 import http from "../utils/http";
-import {
-  UserCreate,
-  UserLogin,
-  UserModel,
-  UserQueryConfig,
-  UserUpdate,
-} from "../types/user.type";
-import { PagingResponse, SuccessReponse } from "../types/common.type";
+import { SuccessReponse } from "../types/common.type";
+import { UserCreate, UserLogin, UserModel } from "../types/user.type";
 
 const url = "/v1/user";
 
 const userApi = {
-  userLogin(body: UserLogin) {
-    return http.post<SuccessReponse<string>>(`${url}/login`, body);
-  },
-  createMultipleUsers(body: UserCreate[]) {
-    return http.post<string>(url, body);
-  },
-  listUsers(params: UserQueryConfig) {
-    return http.get<PagingResponse<UserModel[]>>(url, { params });
-  },
-  getUserById(id: string) {
-    return http.get<SuccessReponse<UserModel>>(`${url}/${id}`);
+  userLogin(body: UserLogin): Promise<string> {
+    return http
+      .post<string>(`${url}/login`, body)
+      .then((response) => response.data);
   },
 
-  updateUserById(body: UserUpdate) {
-    return http.put<UserModel>(`${url}/${body.id}`, body.data);
+  createMultipleUsers(body: UserCreate[]) {
+    return http.post<SuccessReponse<string>>(url, body);
   },
+
+  getMe() {
+    return http.get<SuccessReponse<UserModel>>(`${url}`);
+  },
+
   deleteUsers(ids: string[]) {
     const requestBody = {
       id: ids,
