@@ -19,6 +19,12 @@ export interface UserLogin {
   username: string;
   password: string;
 }
+
+export interface UserAddPage {
+  id: string;
+  pages: number;
+}
+
 export interface UserQueryConfig {
   id?: string;
 }

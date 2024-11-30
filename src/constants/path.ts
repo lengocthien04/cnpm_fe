@@ -3,7 +3,7 @@ const mainPath = {
   home: "/",
   login: "/login",
   printing: "/printing",
-  printinghistory: "/printinghistory",
+  printinghistory: "/printjob",
   payment: "/payment",
   userprofile: "/userprofile",
 };

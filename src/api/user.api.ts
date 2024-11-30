@@ -1,6 +1,7 @@
 import http from "../utils/http";
 import { SuccessReponse } from "../types/common.type";
 import { UserCreate, UserLogin, UserModel } from "../types/user.type";
+import { PrintjobModel } from "../types/printjob.type";
 
 const url = "/v1/user";
 
@@ -25,6 +26,9 @@ const userApi = {
   },
   listUsers() {
     return http.get<SuccessReponse<UserModel[]>>(`${url}/list`);
+  },
+  listUserPrintLogs() {
+    return http.get<SuccessReponse<PrintjobModel[]>>(`${url}/printlogs`);
   },
   getUserById(id: string) {
     return http.get<SuccessReponse<UserModel>>(`${url}/${id}`);
