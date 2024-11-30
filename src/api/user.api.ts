@@ -23,6 +23,12 @@ const userApi = {
     };
     return http.delete<string>(url, { data: requestBody });
   },
+  listUsers() {
+    return http.get<SuccessReponse<UserModel[]>>(`${url}/list`);
+  },
+  getUserById(id: string) {
+    return http.get<SuccessReponse<UserModel>>(`${url}/${id}`);
+  },
 };
 
 export default userApi;

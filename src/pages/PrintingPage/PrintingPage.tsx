@@ -1,68 +1,52 @@
-import { useNavigate, Outlet, useLocation } from "react-router-dom";
-
-const branches = [
-  {
-    id: 1,
-    name: "Cơ sở Lý Thường Kiệt",
-    availablePrinter: 10,
-    route: "/printing/ltk-branch",
-  },
-  {
-    id: 2,
-    name: "Cơ sở Dĩ An",
-    availablePrinter: 8,
-    route: "/printing/da-branch",
-  },
-];
+import { useState } from "react";
+import LoadingSection from "../../components/loading/LoadingSection";
+import printerQuery from "../../hooks/queries/usePrinterQuery";
+import BranchOption from "./children/BranchOption/BranchOption";
+import PrintingConfig from "./children/PrintingConfig/PrintingConfig";
+import Branch from "./children/Branch";
 
 export default function PrintingPage() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { data, isLoading } = printerQuery.useListPrinters();
+  const [branch, setBranch] = useState<string>("");
+  const [chosenPrinter, setChosenPrinter] = useState<string>("");
 
-  const isChildRoute = location.pathname.includes("/printing/");
+  const printersCS2 = Array.isArray(data?.data)
+    ? data.data.filter((printer) => printer.location.includes("CS2"))
+    : [];
+  const printersCS1 = Array.isArray(data?.data)
+    ? data.data.filter((printer) => printer.location.includes("CS1"))
+    : [];
 
-  const handleNavigate = (route: string) => {
-    console.log("Navigating to:", route);
-    navigate(route);
-  };
+  // Count available printers for each location without changing the original filter
+  const availablePrintersCS2 = printersCS2.filter(
+    (printer) => printer.status === "available"
+  );
+  const availablePrintersCS1 = printersCS1.filter(
+    (printer) => printer.status === "available"
+  );
 
+  // Count the available printers
+  const countCS2Available = availablePrintersCS2.length;
+  const countCS1Available = availablePrintersCS1.length;
+  // console.log(branch);
   return (
     <div className="w-full bg-white pb-[3rem]">
-      {!isChildRoute && (
-        <>
-          <div className="pt-[48px] pl-[48px] pb-[48px]">
-            <p className="font-[inter] font-semibold text-[24px] leading-[28.8px] text-[#1E1E1E]">
-              In ấn
-            </p>
-            <p className="font-[inter] font-normal text-[20px] leading-[24px] text-[#1E1E1E]">
-              Chọn cơ sở in
-            </p>
-          </div>
-
-          {branches.map((branch) => (
-            <div
-              key={branch.id}
-              className="ml-[48px] pb-[48px] mr-[48px] mt-[4.8rem] border border-solid border-black rounded-[8px]"
-            >
-              <p className="font-[inter] font-semibold text-[24px] leading-[28.8px] text-[#1E1E1E] mb-[12px] pt-[16px] pl-[16px]">
-                {branch.name}
-              </p>
-              <p className="font-[inter] font-normal text-[16px] leading-[22.4px] text-[#1E1E1E] mb-[6px] pl-[16px]">
-                Máy hiện có: {branch.availablePrinter}
-              </p>
-              <div className="pl-[16px] pb-[16px]">
-                <button
-                  onClick={() => handleNavigate(branch.route)}
-                  className="p-[6px] bg-[#4B4DD6] rounded-[8px] w-[40px] h-[40px] text-white hover:opacity-80"
-                >
-                  In
-                </button>
-              </div>
-            </div>
-          ))}
-        </>
+      {isLoading && <LoadingSection />}
+      {data && !branch && (
+        <BranchOption
+          setbranchname={setBranch}
+          count_cs1={countCS1Available}
+          count_cs2={countCS2Available}
+        />
       )}
-      <Outlet />
+      {branch && !chosenPrinter && (
+        <Branch
+          branch={branch}
+          printers={branch === "Lý Thường Kiệt" ? printersCS1 : printersCS2}
+          setChosenPrinter={setChosenPrinter}
+        />
+      )}
+      {chosenPrinter && <PrintingConfig />}
     </div>
   );
 }

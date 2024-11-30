@@ -1,20 +1,19 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import userApi from "../../api/user.api";
 
-// const useListUsers = (qf: UserQueryConfig) => {
-//   return useQuery({
-//     queryKey: ["user", qf],
-//     queryFn: () => userApi.listUsers(qf),
-//     enabled: !!qf,
-//   });
-// };
+const useListUsers = () => {
+  return useQuery({
+    queryKey: ["user"], // No parameters for the query
+    queryFn: userApi.listUsers, // Assuming `listUsers` doesn't require parameters
+  });
+};
 
-// const useGetUserById = (id: string) => {
-//   return useQuery({
-//     queryKey: ["user", id],
-//     queryFn: () => userApi.getUserById(id),
-//   });
-// };
+const useGetUserById = (id: string) => {
+  return useQuery({
+    queryKey: ["user", id],
+    queryFn: () => userApi.getUserById(id),
+  });
+};
 
 // ! Mutations
 
@@ -64,6 +63,8 @@ const useDeleteUsers = () => {
 };
 
 const userQuery = {
+  useListUsers,
+  useGetUserById,
   mutation: {
     useCreateMultipleUsers,
     useUserLogin,

@@ -5,8 +5,6 @@ import HomePage from "../pages/HomePage";
 import { AppContext } from "../contexts/app.context";
 import mainPath from "../constants/path";
 import PrintingPage from "../pages/PrintingPage/PrintingPage";
-import LtkBranch from "../pages/PrintingPage/children/LtkBranch/LtkBranch";
-import DaBranch from "../pages/PrintingPage/children/DaBranch/DaBranch";
 import PrintingHistoryPage from "../pages/PrintingHistoryPage";
 import PaymentPage from "../pages/PaymentPage";
 import UserPage from "../pages/UserPage/UserPage";
@@ -39,16 +37,6 @@ const MainRoute: RouteObject = {
     {
       path: mainPath.printing,
       element: <PrintingPage />,
-      children: [
-        {
-          path: "ltk-branch",
-          element: <LtkBranch />,
-        },
-        {
-          path: "da-branch",
-          element: <DaBranch />,
-        },
-      ],
     },
     {
       path: mainPath.printinghistory,
