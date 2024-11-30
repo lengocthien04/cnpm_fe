@@ -12,7 +12,7 @@ import PaymentPage from "../pages/PaymentPage";
 
 function MainRouteWrapper() {
   const { isAuthenticated } = useContext(AppContext);
-  return true ? (
+  return isAuthenticated ? (
     <MainLayout>
       <Suspense fallback={<div>Loading...</div>}>
         <Outlet />

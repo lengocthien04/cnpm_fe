@@ -8,16 +8,22 @@ import mainPath from "../../constants/path";
 import AccountInput from "../../components/inputs/AccountInput";
 import userQuery from "../../hooks/queries/useUserQuery";
 import { isAxiosError } from "../../utils/utils";
-import { setAccessTokenToLS } from "../../utils/auth";
+import { setAccessTokenToLS, setProfileToLS } from "../../utils/auth";
 import { isArray } from "lodash";
 import createHttpStatusMessageMap from "../../constants/httpStatusMessage";
 import { loginSchema, LoginSchema } from "../../rules/auth.rule";
+import { useMutation } from "@tanstack/react-query";
+import userApi from "../../api/user.api";
 
 type FormData = LoginSchema;
 
 export default function LoginPage() {
-  const { setIsAuthenticated, setLoadingPage } = useContext(AppContext);
+  const { setIsAuthenticated, setLoadingPage, setProfile } =
+    useContext(AppContext);
   const navigate = useNavigate();
+  const getProfileMutation = useMutation({
+    mutationFn: userApi.getMe,
+  });
 
   const [saveLogin, setSaveLogin] = useState(false);
   const {
@@ -27,15 +33,14 @@ export default function LoginPage() {
     reset,
     formState: { errors },
   } = useForm<FormData>({
-    defaultValues: { company_code: 0 },
     resolver: yupResolver(loginSchema),
   });
 
   const loginForms: InputField[] = [
     {
-      name: "login_id",
+      name: "username",
       title: "Mã số sinh viên",
-      errorMsg: errors.login_id?.message,
+      errorMsg: errors.username?.message,
       svgData: (
         <svg
           width="20"
@@ -76,15 +81,26 @@ export default function LoginPage() {
   const userLoginMutation = userQuery.mutation.useUserLogin();
   const onSubmit = handleSubmit((data) => {
     setLoadingPage(true);
+
     userLoginMutation.mutate(data, {
       onSettled() {
         setLoadingPage(false);
       },
       onSuccess(response) {
+        const token = response;
+        setAccessTokenToLS(token); // Save the token to localStorage or wherever needed
+
         if (saveLogin) {
-          setAccessTokenToLS(response.data.data);
+          setAccessTokenToLS(token); // Save the token to localStorage or wherever needed
         }
-        setIsAuthenticated(true);
+
+        // Proceed to get profile after login
+        getProfileMutation.mutateAsync().then((profileResponse) => {
+          setIsAuthenticated(true);
+          setProfileToLS(profileResponse.data.data); // Assuming you need profile data
+          setProfile(profileResponse.data.data);
+        });
+
         reset();
         navigate(mainPath.home);
       },

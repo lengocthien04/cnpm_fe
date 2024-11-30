@@ -8,3 +8,12 @@ const mainPath = {
 };
 
 export default mainPath;
+
+export const adminPath = {
+  admin: "/admin",
+  userList: "/admin/userinfo",
+  userInfo: "/admin/userinfo/:userinfosId",
+  printerConfig: "admin/printerconfig",
+  report: "admin/report",
+  createUser: "/admin/createuser",
+};
