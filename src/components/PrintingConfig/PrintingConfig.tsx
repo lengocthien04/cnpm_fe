@@ -44,8 +44,8 @@ export default function PrintingConfig() {
   };
 
   return (
-    <div className="mt-[22px] flex">
-      <div className="pl-[32px] w-1/2 mt-[40px] border-r border-black">
+    <div className="mt-[14px] flex">
+      <div className="pl-[32px] w-1/2 my-[40px] border-r border-black">
         <p className="text-[32px] font-[inter] font-bold mb-[16px]">In ấn</p>
         <input
           type="file"
@@ -105,8 +105,8 @@ export default function PrintingConfig() {
         </div>
       </div>
 
-      <div className="pl-[32px] w-1/2 mt-[40px]">
-        <p className="text-[32px] font-[inter] font-bold mb-[40px]">Thông số in</p>
+      <div className="pl-[32px] w-1/2 my-[40px]">
+        <p className="text-[32px] font-[inter] font-bold mb-[48px]">Thông số in</p>
 
         <div className="flex justify-between mb-[12px]">
           <p className="text-[28px] font-[inter]">Trang:</p>
@@ -141,8 +141,8 @@ export default function PrintingConfig() {
         <div className="flex justify-between mb-[12px]">
           <p className="text-[28px] font-[inter]">Số mặt:</p>
           <select className="text-[28px] font-[inter] bg-[#4B4DD6] text-white w-1/2 p-4 rounded-[8px]">
-            <option>Một hặt</option>
-            <option>Hai mặt</option>
+            <option>1</option>
+            <option>2</option>
           </select>
         </div>
 
