@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { AppContext } from "../../contexts/app.context";
 
-const infos =
-{
+const infos = {
   MSSV: 123456,
   name: "abcdef",
   sex: "Nam",
@@ -10,43 +11,11 @@ const infos =
   phoneNumber: "0123456789",
   pagesAvailable: 10,
   email: "abc@gmaill.com",
-  hist: [
-    {
-      fileName: "abc.pdf",
-      time: "15-01-2024"
-    },
-    {
-      fileName: "abc.pdf",
-      time: "15-01-2024"
-    },
-    {
-      fileName: "abc.pdf",
-      time: "15-01-2024"
-    },
-    {
-      fileName: "abc.pdf",
-      time: "15-01-2024"
-    },
-    {
-      fileName: "abc.pdf",
-      time: "15-01-2024"
-    },
-    {
-      fileName: "abc.pdf",
-      time: "15-01-2024"
-    },
-    {
-      fileName: "abc.pdf",
-      time: "15-01-2024"
-    },
-    {
-      fileName: "abc.pdf",
-      time: "15-01-2024"
-    },
-  ]
-}
+};
 
 export default function UserPage() {
+  const { profile } = useContext(AppContext);
+  console.log(profile);
   return (
     <div className="mt-[14px] px-[40px]">
       <p className="font-bold text-[40px] mb-[24px]">Thông tin</p>
@@ -90,9 +59,10 @@ export default function UserPage() {
                 <p>{infos.pagesAvailable}</p>
               </div>
 
-              <button
-                className="bg-primary-blue px-[12px] py-[6px] text-white hover:cursor-pointer hover:text-black hover:opacity-85 rounded-[10px]"
-              > Mua thêm trang</button>
+              <button className="bg-primary-blue px-[12px] py-[6px] text-white hover:cursor-pointer hover:text-black hover:opacity-85 rounded-[10px]">
+                {" "}
+                Mua thêm trang
+              </button>
             </div>
           </div>
         </div>
@@ -101,9 +71,7 @@ export default function UserPage() {
       <div className="mb-[24px]">
         <div className="bg-primary-blue px-4 py-2 flex justify-between">
           <p className="text-white font-bold text-[24px]">Thông tin liên hệ</p>
-          <button
-            className="text-white hover:cursor-pointer"
-          >Cập nhật</button>
+          <button className="text-white hover:cursor-pointer">Cập nhật</button>
         </div>
         <div key={infos.MSSV} className="flex p-[8px]">
           <div className="text-[16px] mb-8 w-1/2">
@@ -117,28 +85,6 @@ export default function UserPage() {
           </div>
         </div>
       </div>
-
-      <div className="mb-[24px]">
-        <div className="bg-primary-blue px-4 py-2">
-          <p className="text-white font-bold text-[24px]">Lịch sử in</p>
-        </div>
-
-        <div className="p-[8px]">
-          <div className="flex">
-            <p className="w-1/2 font-bold">Tên file</p>
-            <p className="w-1/2 font-bold">Ngày in</p>
-          </div>
-
-          <div className="h-[200px] overflow-y-auto">
-            {infos.hist.map((his, index) => (
-              <div key={index} className="flex space-y-4">
-                <p className="w-1/2">{his.fileName}</p>
-                <p className="w-1/2">{his.time}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
     </div>
-  )
+  );
 }

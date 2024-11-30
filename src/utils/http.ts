@@ -6,7 +6,7 @@ import {
   setAccessTokenToSessionStorage,
 } from "./auth";
 import config from "../configs/config";
-import { ErrorRespone, SuccessReponse } from "../types/common.type";
+import { ErrorRespone } from "../types/common.type";
 import { HttpErrorKeys } from "../constants/httpResponeErrorKey";
 
 const domain = config.ApiURL;
@@ -40,10 +40,10 @@ class Http {
     // Add a response interceptor
     this.instance.interceptors.response.use(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (response: AxiosResponse<SuccessReponse<string>, any>) => {
+      (response: AxiosResponse<string, any>) => {
         const { url } = response.config;
         if (url === "/v1/user/login") {
-          const accessToken = response.data.data;
+          const accessToken = response.data;
           if (accessToken !== undefined) {
             this.accessToken = accessToken;
             setAccessTokenToSessionStorage(accessToken);

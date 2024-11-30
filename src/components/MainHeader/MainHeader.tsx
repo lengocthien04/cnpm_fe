@@ -47,10 +47,12 @@ export default function MainHeader() {
             icon={faBell}
             className="text-primary-purple p-2 w-[1.8rem] h-full hover:bg-blue-100 hover:text-blue-300 transition-all duration-300 border-0 rounded-full"
           />
-          <FontAwesomeIcon
-            icon={faUser}
-            className="text-primary-blue bg-primary-purple w-[1.8rem] h-full border-0 rounded-full p-2 hover:bg-blue-100 hover:text-blue-300 transition-all duration-300 "
-          />
+          <a className="w-[1.8rem] h-full" href={mainPath.userprofile}>
+            <FontAwesomeIcon
+              icon={faUser}
+              className="text-primary-blue bg-primary-purple  border-0 rounded-full p-2 hover:bg-blue-100 hover:text-blue-300 transition-all duration-300 "
+            />
+          </a>
         </div>
       ) : (
         <a

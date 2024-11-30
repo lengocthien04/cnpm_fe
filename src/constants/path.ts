@@ -5,6 +5,7 @@ const mainPath = {
   printing: "/printing",
   printinghistory: "/printinghistory",
   payment: "/payment",
+  userprofile: "/userprofile",
 };
 
 export default mainPath;

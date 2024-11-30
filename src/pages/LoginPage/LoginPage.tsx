@@ -24,8 +24,6 @@ export default function LoginPage() {
   const getProfileMutation = useMutation({
     mutationFn: userApi.getMe,
   });
-
-  const [saveLogin, setSaveLogin] = useState(false);
   const {
     register,
     handleSubmit,
@@ -87,21 +85,23 @@ export default function LoginPage() {
         setLoadingPage(false);
       },
       onSuccess(response) {
-        const token = response;
+        const token = response.data;
         setAccessTokenToLS(token); // Save the token to localStorage or wherever needed
 
-        if (saveLogin) {
-          setAccessTokenToLS(token); // Save the token to localStorage or wherever needed
-        }
-
         // Proceed to get profile after login
-        getProfileMutation.mutateAsync().then((profileResponse) => {
-          setIsAuthenticated(true);
-          setProfileToLS(profileResponse.data.data); // Assuming you need profile data
-          setProfile(profileResponse.data.data);
-        });
+        getProfileMutation
+          .mutateAsync()
+          .then((profileResponse) => {
+            setIsAuthenticated(true);
+            setProfileToLS(profileResponse.data); // Save profile data to localStorage
+            setProfile(profileResponse.data); // Update profile in the state
 
-        reset();
+            reset();
+            navigate(mainPath.home);
+          })
+          .catch((error) => {
+            console.error("Error fetching profile:", error);
+          });
         navigate(mainPath.home);
       },
       onError: async (err) => {
@@ -153,18 +153,6 @@ export default function LoginPage() {
               />
             </div>
           ))}
-          <div className="w-full flex justify-end mt-0">
-            <div className="flex items-center">
-              <input
-                name="save-login"
-                type="checkbox"
-                className="w-8 h-8 border-2 border-primary-blue rounded-md mr-3"
-                checked={saveLogin}
-                onChange={() => setSaveLogin(!saveLogin)}
-              />
-              <span>Save</span>
-            </div>
-          </div>
           <button
             type="submit"
             className="w-full py-4 mt-8 text-2xl font-bold text-white bg-primary-blue-unhover hover:bg-primary-blue rounded-md"

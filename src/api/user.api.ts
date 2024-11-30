@@ -5,10 +5,8 @@ import { UserCreate, UserLogin, UserModel } from "../types/user.type";
 const url = "/v1/user";
 
 const userApi = {
-  userLogin(body: UserLogin): Promise<string> {
-    return http
-      .post<string>(`${url}/login`, body)
-      .then((response) => response.data);
+  userLogin(body: UserLogin) {
+    return http.post<string>(`${url}/login`, body);
   },
 
   createMultipleUsers(body: UserCreate[]) {
@@ -16,7 +14,7 @@ const userApi = {
   },
 
   getMe() {
-    return http.get<SuccessReponse<UserModel>>(`${url}`);
+    return http.get<UserModel>(`${url}`);
   },
 
   deleteUsers(ids: string[]) {
