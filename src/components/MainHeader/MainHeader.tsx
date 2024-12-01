@@ -1,16 +1,20 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBell } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../../contexts/app.context";
 import notifyQuery from "../../hooks/queries/useNotifyQuery";
 import useNotifyQueryConfig from "../../hooks/queryConfigs/useNotifyQueryConfig";
 import mainPath from "../../constants/path";
+import { NavLink } from "react-router-dom";
+import classNames from "classnames";
 
 export default function MainHeader() {
   const { isAuthenticated } = useContext(AppContext);
   const notifyqueryconfig = useNotifyQueryConfig();
   const { data } = notifyQuery.useListNotify(notifyqueryconfig);
-  const notifylist = data?.data || [];
+  const notifylist = useMemo(() => {
+    return data?.data || [];
+  }, [data]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State to control dropdown visibility
   const [hasReadNotifications, setHasReadNotifications] = useState<boolean>(
     () => {
@@ -46,22 +50,29 @@ export default function MainHeader() {
   };
 
   return (
-    <div className="flex justify-between items-center px-[4rem] py-[2rem] bg-primary-blue">
+    <div className="flex justify-between items-center h-20 px-6 py-2 bg-primary-blue">
       <img
-        className="w-[5rem] h-full bg-white rounded-[1rem]"
+        className="h-full bg-white rounded-xl"
         src="public/01_logobachkhoasang 1.png"
         alt="Logo"
       />
       {HeaderName.map((item) => (
-        <a
+        <NavLink
           key={item.name}
-          href={item.path}
-          className="text-white font-[550] text-[2.4rem] hover:bg-blue-100 hover:text-blue-300 transition-all duration-300 group relative border-0 rounded-[0.6rem]"
+          to={item.path}
+          className={({ isActive }) =>
+            classNames(
+              "text-white font-semibold text-2xl hover:bg-blue-100 hover:text-blue-500 transition-all group relative border-0 rounded-[0.6rem]",
+              {
+                "bg-blue-100 !text-blue-500 ": isActive,
+              }
+            )
+          }
         >
           <span className="inline-block group-hover:block w-full px-4 py-2 rounded-md">
             {item.name}
           </span>
-        </a>
+        </NavLink>
       ))}
       {isAuthenticated ? (
         <div className=" gap-[1rem] relative flex items-center justify-center">
