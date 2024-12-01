@@ -1,4 +1,3 @@
-import { SuccessReponse } from "../types/common.type";
 import {
   NotifyCreate,
   NotifyModel,
@@ -16,7 +15,7 @@ const notifyApi = {
     return http.get<NotifyModel[]>(url, { params });
   },
   getNotifyById(id: string) {
-    return http.get<SuccessReponse<NotifyModel>>(`${url}/${id}`);
+    return http.get<NotifyModel>(`${url}/${id}`);
   },
   deleteNotify(ids: string[]) {
     return http.delete<string>(url, { data: ids });
