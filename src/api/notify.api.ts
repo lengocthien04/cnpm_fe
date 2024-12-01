@@ -13,7 +13,7 @@ const notifyApi = {
     return http.post<NotifyModel>(url, data);
   },
   listNotify(params: NotifyQueryConfig) {
-    return http.get<SuccessReponse<NotifyModel[]>>(url, { params });
+    return http.get<NotifyModel[]>(url, { params });
   },
   getNotifyById(id: string) {
     return http.get<SuccessReponse<NotifyModel>>(`${url}/${id}`);

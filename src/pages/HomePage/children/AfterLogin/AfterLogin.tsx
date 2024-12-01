@@ -54,7 +54,9 @@ export default function AfterLogin() {
             </button>
           </div>
         )}
-        <CreatingNotifyForm isOpen={isCreatingNotify} onClose={onclose} />
+        {isCreatingNotify && (
+          <CreatingNotifyForm isOpen={isCreatingNotify} onClose={onclose} />
+        )}
         {notifications.map((nofitication) => (
           <div
             key={nofitication.id}
