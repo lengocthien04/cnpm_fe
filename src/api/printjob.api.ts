@@ -7,7 +7,7 @@ import http from "../utils/http";
 
 const url = "/v1/printjob";
 const printjobApi = {
-  createMultiplePrintjobs(data: PrintjobCreate[]) {
+  createPrintjob(data: PrintjobCreate) {
     return http.post<PrintjobModel>(url, data);
   },
   listPrintJob(params: PrintjobQueryConfig) {

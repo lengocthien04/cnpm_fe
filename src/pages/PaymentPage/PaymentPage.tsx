@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import AddPage from "./AddPage/AddPage";
+import { AppContext } from "../../contexts/app.context";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import userApi from "../../api/user.api";
 
 export default function PaymentPage() {
   const [pages, setPages] = useState<{ page: number; size: string }[]>([]);
+  const { profile } = useContext(AppContext); // Getting profile info for user ID
+  const queryClient = useQueryClient();
+
+  const calculateTotalPages = (): number => {
+    // Assuming you want the total page count, not price
+    return pages.reduce((total, page) => total + page.page, 0);
+  };
 
   const calculateTotalPrice = (): number => {
-    // Define a baseline price for A4
     const basePrice = 100;
-
-    // Map sizes to a multiplier with respect to A4
     const sizeMultiplier: { [key: string]: number } = {
       A5: 0.5,
       A4: 1,
@@ -18,15 +25,14 @@ export default function PaymentPage() {
       A0: 16,
     };
 
-    // Calculate total price
     const totalPrice = pages.reduce((total, page) => {
-      console.log(page);
-      const multiplier = sizeMultiplier[page.size]; // Default to A4 if size is not defined
-      return total + page.page * basePrice * multiplier; // Ensure page.page reflects the count of pages
+      const multiplier = sizeMultiplier[page.size] || 1;
+      return total + page.page * basePrice * multiplier;
     }, 0);
 
     return totalPrice;
   };
+
   const [selectedMethod, setSelectedMethod] = useState<string>("");
 
   const paymentMethods = [
@@ -37,6 +43,34 @@ export default function PaymentPage() {
 
   const handleSelect = (method: string) => {
     setSelectedMethod(method);
+  };
+
+  // Mutation to add pages
+  const addPagesMutation = useMutation({
+    mutationFn: userApi.addPages,
+    onSuccess: () => {
+      console.log("Pages added successfully!");
+      queryClient.invalidateQueries({ queryKey: ["pages"] }); // Invalidate any related cache if needed
+    },
+    onError: (error) => {
+      console.error("Failed to add pages:", error);
+    },
+  });
+
+  const handlePayment = () => {
+    if (!profile?.id) {
+      console.error("User ID is not available.");
+      return;
+    }
+
+    const pages_number = calculateTotalPages(); // This is the number of pages
+    const userId = profile.id;
+
+    // Trigger mutation to add pages
+    addPagesMutation.mutate({
+      id: userId,
+      pages: pages_number,
+    });
   };
 
   return (
@@ -71,7 +105,10 @@ export default function PaymentPage() {
               ))}
             </select>
           </div>
-          <button className="w-[20rem] text-[2.4rem] font-bold text-white bg-[#4B4DD6] p-2  hover:bg-blue-100 hover:text-blue-300 rounded-md">
+          <button
+            className="w-[20rem] text-[2.4rem] font-bold text-white bg-[#4B4DD6] p-2  hover:bg-blue-100 hover:text-blue-300 rounded-md"
+            onClick={handlePayment}
+          >
             Thanh toán
           </button>
         </div>

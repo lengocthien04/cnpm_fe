@@ -5,8 +5,8 @@ export interface PrintjobCreate {
   file_id: string;
   user_id: string;
   printer_id: string;
-  page_size: string;
-  duplex: string;
+  page_size: number[];
+  duplex: boolean;
   copies: number;
   date?: string;
 }

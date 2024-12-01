@@ -1,5 +1,10 @@
 import http from "../utils/http";
-import { UserCreateDto, UserLogin, UserModel } from "../types/user.type";
+import {
+  UserAddPage,
+  UserCreateDto,
+  UserLogin,
+  UserModel,
+} from "../types/user.type";
 import { PrintjobModel } from "../types/printjob.type";
 
 const url = "/v1/user";
@@ -31,6 +36,9 @@ const userApi = {
   },
   getUserById(id: string) {
     return http.get<UserModel>(`${url}/${id}`);
+  },
+  addPages(body: UserAddPage) {
+    return http.post<Partial<UserModel>>(`${url}/add-pages`, body);
   },
 };
 
