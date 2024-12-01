@@ -30,7 +30,7 @@ export default function CreatingNotifyForm({
 
   // Users data
   const users = data?.data || [];
-  const printjobs = printjobdata?.data.data || [];
+  const printjobs = printjobdata?.data || [];
 
   // Form schema
   const schema = notifyCreateSchema;
@@ -46,6 +46,7 @@ export default function CreatingNotifyForm({
 
   // Using useState for selected users (multiple)
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  console.log(selectedUsers);
   const handleCheckboxChange = (id: string, isSelected: boolean) => {
     setSelectedUsers((prev) => {
       if (isSelected) {
