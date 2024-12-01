@@ -59,15 +59,12 @@ export default function PaymentPage() {
       setExcuting(false); // Hide loading
       setSuccess(true); // Show success message
       queryClient.invalidateQueries({ queryKey: ["pages"] });
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      setPages([]);
     },
     onError: () => {
       setExcuting(false); // Hide loading
       setError(true); // Show error message
-    },
-    onSettled: () => {
-      setTimeout(() => {
-        setExcutingDialog(false); // Hide the dialog after some time (optional)
-      }, 1000);
     },
   });
 
@@ -79,6 +76,8 @@ export default function PaymentPage() {
 
     const pages_number = calculateTotalPages(); // This is the number of pages
     const userId = profile.id;
+
+    console.log(userId, pages_number);
 
     // Trigger mutation to add pages
     addPagesMutation.mutate({

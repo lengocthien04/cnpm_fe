@@ -2,17 +2,19 @@ import { useState, useContext, useEffect, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBell } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../../contexts/app.context";
-import notifyQuery from "../../hooks/queries/useNotifyQuery";
-import useNotifyQueryConfig from "../../hooks/queryConfigs/useNotifyQueryConfig";
 import mainPath from "../../constants/path";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import classNames from "classnames";
+import { useQuery } from "@tanstack/react-query";
+import userApi from "../../api/user.api";
 
 export default function MainHeader() {
   const { isAuthenticated } = useContext(AppContext);
-  const notifyqueryconfig = useNotifyQueryConfig();
 
-  const { data, refetch } = notifyQuery.useListNotify(notifyqueryconfig);
+  const { data, refetch } = useQuery({
+    queryKey: ["notify"],
+    queryFn: () => userApi.getNotifications(),
+  });
 
   const notifylist = useMemo(() => {
     return data?.data || [];
@@ -29,8 +31,8 @@ export default function MainHeader() {
   const HeaderName = [
     { name: "Trang chủ", path: mainPath.home },
     { name: "In ấn", path: mainPath.printing },
-    { name: "Lịch sử in ấn", path: mainPath.printinghistory },
-    { name: "Thanh toán", path: mainPath.payment },
+    { name: "Lịch sử in", path: mainPath.printinghistory },
+    { name: "Mua giấy in", path: mainPath.payment },
   ];
 
   useEffect(() => {
@@ -95,46 +97,48 @@ export default function MainHeader() {
           </div>
 
           {/* User Profile Icon */}
-          <a
+          <Link
             className="w-[1.8rem] h-full flex items-center justify-center"
-            href={mainPath.userprofile}
+            to={mainPath.userprofile}
           >
             <FontAwesomeIcon
               icon={faUser}
               className="text-primary-blue bg-primary-purple border-0 rounded-full p-2 hover:bg-blue-100 hover:text-blue-300 transition-all duration-300"
             />
-          </a>
+          </Link>
 
           {/* Dropdown for notifications */}
           {isDropdownOpen && (
-            <div className="absolute top-[3rem] right-0 w-[20rem] bg-gray-200 rounded-md shadow-lg p-4 z-50">
+            <div className="absolute top-[3rem]   right-0 w-[20rem] bg-gray-200 rounded-md shadow-lg p-4 z-50">
               <h3 className="text-lg font-bold mb-2">Thông báo</h3>
               {notifylist.length === 0 ? (
-                <p>No notifications available.</p>
+                <p>No notifications.</p>
               ) : (
+                <div className="w-full max-h-[40vh] p-2 bg-white rounded-lg overflow-auto">
+                  {notifylist.map((notification) => (
+                    <div
+                      key={notification.id}
+                      className="p-2 border-b border-gray-300"
+                    >
+                      <p>{notification.message}</p>
+                      {notification.printjob_id && (
+                        <p>{notification.printjob_id}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
                 // Reverse the notifylist to display the newest notifications first
-                [...notifylist].reverse().map((notification) => (
-                  <div
-                    key={notification.id}
-                    className="p-2 border-b border-gray-300"
-                  >
-                    <p>{notification.message}</p>
-                    {notification.printjob_id && (
-                      <p>{notification.printjob_id}</p>
-                    )}
-                  </div>
-                ))
               )}
             </div>
           )}
         </div>
       ) : (
-        <a
+        <Link
           className="text-[2.4rem] font-bold text-white bg-[#4B4DD6] p-4 hover:bg-blue-100 hover:text-blue-300 rounded-md"
-          href={mainPath.login}
+          to={mainPath.login}
         >
           Đăng nhập
-        </a>
+        </Link>
       )}
     </div>
   );

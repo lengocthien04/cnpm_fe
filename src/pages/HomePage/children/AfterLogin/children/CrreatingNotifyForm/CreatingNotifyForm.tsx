@@ -8,8 +8,6 @@ import {
   NotifyCreateSchema,
 } from "../../../../../../rules/notify.rule";
 import LoadingPage from "../../../../../../components/loading/LoadingPage";
-import printjobQuery from "../../../../../../hooks/queries/usePrintjobQuery";
-import usePrintjobQueryConfig from "../../../../../../hooks/queryConfigs/usePrintjobQueryConfig";
 
 // Define the form props for TypeScript
 interface NotifyFormProps {
@@ -22,62 +20,63 @@ export default function CreatingNotifyForm({
   onClose,
 }: NotifyFormProps) {
   const { data, isLoading: isUsersLoading } = userQuery.useListUsers(); // Fetch users
-  const printjobqueryconfig = usePrintjobQueryConfig();
-  const { data: printjobdata, isLoading: isPrinjobLoading } =
-    printjobQuery.useListPrintjob(printjobqueryconfig); // Fetch users
 
   const { mutate: createNotify } = notifyQuery.mutation.useCreatNotify(); // Mutation to create a notification
 
   // Users data
   const users = data?.data || [];
-  const printjobs = printjobdata?.data || [];
 
   // Form schema
   const schema = notifyCreateSchema;
   const methods = useForm<NotifyCreateSchema>({
+    defaultValues: {
+      receiver_ids: [],
+    },
     resolver: yupResolver(schema),
   });
   const {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = methods;
-  console.log(errors); // Check if any validation errors exist
 
   // Using useState for selected users (multiple)
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-  console.log(selectedUsers);
+  const selectAllUsers = () => {
+    setSelectedUsers(allSelected ? [] : users.map((u) => u.id));
+    setValue("receiver_ids", allSelected ? [] : users.map((u) => u.id));
+  };
+  const allSelected = users.reduce((acc, u) => {
+    return acc && selectedUsers.includes(u.id);
+  }, true);
   const handleCheckboxChange = (id: string, isSelected: boolean) => {
     setSelectedUsers((prev) => {
       if (isSelected) {
-        return [...prev, id];
+        const newSelectedUsers = [...prev, id];
+        setValue("receiver_ids", newSelectedUsers);
+        return newSelectedUsers;
       } else {
-        return prev.filter((userId) => userId !== id);
+        const newSelectedUsers = prev.filter((userId) => userId !== id);
+        setValue("receiver_ids", newSelectedUsers);
+        return newSelectedUsers;
       }
     });
   };
-  const [selectedPrintjobs, setSelectedPrintjobs] = useState<string>();
 
-  if (isUsersLoading || isPrinjobLoading) {
+  if (isUsersLoading) {
     return <LoadingPage />;
   }
 
   const onSubmit = (data: NotifyCreateSchema) => {
-    console.log("onSubmit triggered"); // Check if it's being logged
     const cleanedData = {
       ...data,
-      printjob_id: selectedPrintjobs,
       receiver_ids: selectedUsers,
     };
 
-    console.log("Form submitted with data:", cleanedData);
-
     createNotify(cleanedData, {
-      onSettled: () => {
-        console.log("Mutation settled");
-      },
+      onSettled: () => {},
       onSuccess: () => {
-        console.log("Notification created successfully");
         reset();
         onClose();
       },
@@ -92,11 +91,30 @@ export default function CreatingNotifyForm({
       className={`fixed inset-0 z-50 bg-gray-500 bg-opacity-50 flex justify-center items-center ${!isOpen && "hidden"}`}
     >
       <div className="bg-primary-background p-6 rounded-lg w-[50vw] shadow-lg relative">
-        <h2 className="text-xl font-bold mb-4">Create Notification</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <h2 className="text-xl font-bold mb-4">Tạo thông báo</h2>
+        <form
+          onSubmit={handleSubmit(onSubmit, (error) => {
+            console.log(error);
+          })}
+        >
           <div className="mb-4">
-            <label className="block font-medium mb-2">Select Users</label>
-            <div className="px-[3rem] bg-white max-h-[20vh] overflow-auto">
+            <div className="flex gap-2 items-center mb-4">
+              <p className="block font-medium">Chọn người nhận</p>
+
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id={`all-user`}
+                  checked={allSelected} // Controlled checkbox state
+                  onChange={selectAllUsers}
+                  className="mr-2"
+                />
+                <label htmlFor={`all-user`} className="text-gray-700">
+                  Tất cả
+                </label>
+              </div>
+            </div>
+            <div className="px-4 bg-white max-h-[20vh] overflow-auto">
               {users.map((user) => (
                 <div key={user.id} className="flex items-center">
                   <input
@@ -120,7 +138,7 @@ export default function CreatingNotifyForm({
 
           <div className="mb-4">
             <label htmlFor="message" className="block font-medium mb-2">
-              Message
+              Thông báo
             </label>
             <textarea
               id="message"
@@ -133,29 +151,13 @@ export default function CreatingNotifyForm({
             )}
           </div>
 
-          <select
-            id="printjob_id"
-            className="w-full p-2 border border-gray-300 rounded-md bg-white"
-            {...methods.register("printjob_id")}
-            onChange={(e) => {
-              setSelectedPrintjobs(e.target.value);
-            }}
-          >
-            <option value="">Select Printjob (optional)</option>
-            {printjobs.map((printjob) => (
-              <option key={printjob.id} value={printjob.id}>
-                {printjob.file_id}
-              </option>
-            ))}
-          </select>
-
           {/* Submit Button */}
           <div className="flex justify-end mt-4 z-50">
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-200"
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400"
             >
-              Create Notification
+              Gửi thông báo
             </button>
           </div>
         </form>

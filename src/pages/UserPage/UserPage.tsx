@@ -1,11 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { useContext } from "react";
-import { AppContext } from "../../contexts/app.context";
 import mainPath from "../../constants/path";
+import { useQuery } from "@tanstack/react-query";
+import userApi from "../../api/user.api";
 
 export default function UserPage() {
-  const { profile } = useContext(AppContext);
+  const { data } = useQuery({
+    queryKey: ["user-profile"],
+    queryFn: () => userApi.getMe(),
+  });
+  const profile = data?.data;
   return (
     <div className="mt-[14px] px-[40px] min-h-[70vh] py-[1rem]">
       <p className="font-bold text-[40px] py-[3rem] ">Thông tin</p>
