@@ -10,6 +10,7 @@ import AdminUserCreate from "../pages/AdminPages/AdminUserCreate";
 import AdminPrinterList from "../pages/AdminPages/AdminPrinterList";
 import AdminPrinterCreate from "../pages/AdminPages/AdminPrinterCreate";
 import AdminPrintingSettings from "../pages/AdminPages/AdminPrintingSettings";
+import AdminReport from "../pages/AdminPages/AdminReport";
 
 function AdminRouteWrapper() {
   const { isAuthenticated, profile } = useContext(AppContext);
@@ -30,7 +31,6 @@ const AdminRoute: RouteObject = {
   element: <AdminRouteWrapper />,
   children: [
     { path: "", element: <AdminPages /> },
-    {},
     {
       path: adminPath.userList,
       element: <AdminUserList />,
@@ -57,6 +57,7 @@ const AdminRoute: RouteObject = {
     },
     {
       path: adminPath.report,
+      element: <AdminReport />,
     },
   ],
 };

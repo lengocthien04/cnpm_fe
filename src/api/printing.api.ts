@@ -4,8 +4,10 @@ import {
   PrintingSettings,
   PrintingSettingsUpdate,
 } from "../types/printing.type";
+import { PrintingReport } from "../types/report.type";
 
 const url = "/v1/printing-config";
+const reportURL = "/v1/report/this-month";
 
 const printingApi = {
   getPrintingSettings() {
@@ -19,6 +21,10 @@ const printingApi = {
   },
   updateFiles(body: PrintingSettingsUpdate) {
     return http.patch<PrinterModel[]>(`${url}/update-allowed-files`, body);
+  },
+
+  getReportOfThisMonth() {
+    return http.get<PrintingReport>(reportURL);
   },
 };
 
