@@ -9,7 +9,7 @@ import mainPath from "../../constants/path";
 export default function MainHeader() {
   const { isAuthenticated } = useContext(AppContext);
   const notifyqueryconfig = useNotifyQueryConfig();
-  const { data } = notifyQuery.useListNotify(notifyqueryconfig);
+  const { data, refetch } = notifyQuery.useListNotify(notifyqueryconfig);
 
   const notifylist = useMemo(() => {
     return data?.data || [];
@@ -47,6 +47,7 @@ export default function MainHeader() {
       setHasReadNotifications(true); // Mark notifications as read when bell is clicked
       localStorage.setItem("notificationsRead", "true"); // Set the notifications as read in localStorage
     }
+    refetch();
   };
 
   return (
@@ -101,7 +102,8 @@ export default function MainHeader() {
               {notifylist.length === 0 ? (
                 <p>No notifications available.</p>
               ) : (
-                notifylist.map((notification) => (
+                // Reverse the notifylist to display the newest notifications first
+                [...notifylist].reverse().map((notification) => (
                   <div
                     key={notification.id}
                     className="p-2 border-b border-gray-300"

@@ -88,7 +88,6 @@ export default function PrintingConfig({ chosenprinter }: Props) {
 
     const uploadAndCreatePrintJob = (file: File) => {
       const uploadBody = { file };
-
       uploadMaterialMutation.mutate(uploadBody, {
         onError: (error) => {
           console.error("File upload failed", error);
@@ -97,7 +96,7 @@ export default function PrintingConfig({ chosenprinter }: Props) {
           setError(true);
         },
         onSuccess: (response) => {
-          const fileId = response.data.data.id;
+          const fileId = response.data.id;
 
           const printJobBody = {
             file_id: fileId,
@@ -138,8 +137,6 @@ export default function PrintingConfig({ chosenprinter }: Props) {
 
     setFiles([]); // Clear the file list after submission
   };
-
-  console.log(files);
 
   return (
     <div className="mt-[14px] flex">
@@ -284,7 +281,7 @@ export default function PrintingConfig({ chosenprinter }: Props) {
           <Fragment>
             {success && (
               <p className="text-center text-xl font-medium uppercase leading-6 text-successGreen">
-                Upload tài liệu thành công
+                Upload tài liệu thành công, tài liệu đang được xử lí
               </p>
             )}
             {error && (

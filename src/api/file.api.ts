@@ -4,11 +4,13 @@ import http from "../utils/http";
 const url = "/v1/file";
 
 const fileApi = {
-  uploadFile(data: { file: File }) {
-    const body = {
-      file: data.file,
-    };
-    return http.post<FileModel>(`${url}/upload`, body);
+  uploadFile(body: { file: File }) {
+    console.log(body);
+    return http.post<FileModel>(`${url}/upload`, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   },
 };
 export default fileApi;
