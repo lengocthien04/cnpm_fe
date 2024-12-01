@@ -9,6 +9,12 @@ export interface UserCreate {
   available_pages: number;
 }
 
+export interface UserCreateDto {
+  name: string;
+  username: string;
+  password: string;
+}
+
 export interface UserModel extends UserCreate, SQLModel {}
 
 export interface UserList {

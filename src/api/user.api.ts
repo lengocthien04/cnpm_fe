@@ -1,6 +1,5 @@
 import http from "../utils/http";
-import { SuccessReponse } from "../types/common.type";
-import { UserCreate, UserLogin, UserModel } from "../types/user.type";
+import { UserCreateDto, UserLogin, UserModel } from "../types/user.type";
 import { PrintjobModel } from "../types/printjob.type";
 
 const url = "/v1/user";
@@ -10,8 +9,8 @@ const userApi = {
     return http.post<string>(`${url}/login`, body);
   },
 
-  createMultipleUsers(body: UserCreate[]) {
-    return http.post<SuccessReponse<string>>(url, body);
+  createMultipleUsers(body: UserCreateDto[]) {
+    return http.post<UserModel[]>(`${url}/create-users`, body);
   },
 
   getMe() {
@@ -28,10 +27,10 @@ const userApi = {
     return http.get<UserModel[]>(`${url}/list`);
   },
   listUserPrintLogs() {
-    return http.get<SuccessReponse<PrintjobModel[]>>(`${url}/printlogs`);
+    return http.get<PrintjobModel[]>(`${url}/printlogs`);
   },
   getUserById(id: string) {
-    return http.get<SuccessReponse<UserModel>>(`${url}/${id}`);
+    return http.get<UserModel>(`${url}/${id}`);
   },
 };
 

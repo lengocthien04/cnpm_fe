@@ -38,3 +38,19 @@ export const convertToStringParams = (
 
   return result;
 };
+
+export const removeSpecialCharacter = (str: string) =>
+  str.replace(
+    // eslint-disable-next-line no-useless-escape
+    /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
+    ""
+  );
+
+export const generateNameId = ({ name, id }: { name: string; id: string }) => {
+  return removeSpecialCharacter(name).replace(/\s/g, "-") + `-id:${id}`;
+};
+
+export const getIdFromUrl = (idString: string) => {
+  const arr = idString.split("id:");
+  return arr[arr.length - 1];
+};

@@ -7,6 +7,7 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { AppProvider } from "./contexts/app.context";
 import LoadingPage from "./components/loading/LoadingPage";
 import { AppContext } from "./contexts/app.context";
+import { AdminProvider } from "./contexts/admin.context";
 
 function AppIner() {
   const routes = useRouteElements();
@@ -29,7 +30,9 @@ function App() {
     <ScrollToTop>
       <PrimeReactProvider>
         <AppProvider>
-          <AppIner />
+          <AdminProvider>
+            <AppIner />
+          </AdminProvider>
         </AppProvider>
       </PrimeReactProvider>
     </ScrollToTop>
