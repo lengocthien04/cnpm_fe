@@ -9,7 +9,7 @@ export default function AdminSideBar() {
     { name: "Tạo người dùng", path: adminPath.createUser },
     { name: "Danh sách máy in", path: adminPath.printers },
     { name: "Thêm máy in", path: adminPath.createPrinters },
-    { name: "Điều chỉnh máy in", path: adminPath.printerConfig },
+    { name: "Cài đặt", path: adminPath.printingSettings },
     { name: "Báo cáo", path: adminPath.report },
   ];
 
