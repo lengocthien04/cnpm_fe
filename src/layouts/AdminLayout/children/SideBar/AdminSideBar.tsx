@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { adminPath } from "../../../../constants/path";
-import classNames from "classnames";
+import { classNames } from "primereact/utils";
 
 export default function AdminSideBar() {
   const Admin = [

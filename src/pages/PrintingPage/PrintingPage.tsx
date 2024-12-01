@@ -46,7 +46,7 @@ export default function PrintingPage() {
           setChosenPrinter={setChosenPrinter}
         />
       )}
-      {chosenPrinter && <PrintingConfig />}
+      {chosenPrinter && <PrintingConfig chosenprinter={chosenPrinter} />}
     </div>
   );
 }

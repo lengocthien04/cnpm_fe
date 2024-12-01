@@ -21,21 +21,47 @@ import usePrintjobQueryConfig from "../../hooks/queryConfigs/usePrintjobQueryCon
 import LoadingSection from "../../components/loading/LoadingSection";
 import { PrintjobQueryConfig } from "../../types/printjob.type";
 
+// Convert date to a readable format (e.g., '2024-12-01 02:14 AM')
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleString(); // You can format it further if needed
+};
+
+// Capitalize the first letter and replace underscores with spaces
+const formatStatus = (status: string): string => {
+  return status
+    .replace(/_/g, " ") // Replace underscores with spaces
+    .replace(/(?:^\w|[A-Z]|\b\w|\s+\w)/g, (match) => match.toUpperCase()); // Capitalize first letter of each word
+};
+
 const today = formatDateToString(new Date());
 
 export default function PrintingHistoryPage() {
-  // ! Clear url search on reload
   const [, setSearchParams] = useSearchParams();
+
+  // Use effect for resetting the search params only when the page is reloaded
   useEffect(() => {
     const isReload = performance.getEntriesByType("navigation").some((nav) => {
-      // 'navigate' is for first-time entries
       return (nav as PerformanceNavigationTiming).type === "reload";
     });
 
+    // Only update search params if it's a reload and params are not already set
     if (isReload) {
-      setSearchParams({ ...convertToStringParams() });
+      const currentParams = convertToStringParams();
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // Compare current params with existing params in the URL
+      const shouldUpdateParams = !Array.from(urlParams.entries()).every(
+        ([key, value]) => currentParams[key] === value
+      );
+
+      // Only update search params if different
+      if (shouldUpdateParams) {
+        setSearchParams(currentParams);
+      }
     }
-  });
+  }, [setSearchParams]); // Added dependency array so it runs once on mount
+
   const queryParam = useQueryParams();
   const paramStartDate = queryParam.date
     ? queryParam.date[0]
@@ -75,14 +101,15 @@ export default function PrintingHistoryPage() {
       ).toString(),
     });
   };
+
   const { data, isLoading } =
     printjobQuery.useListPrintjob(printjobQueryConfig);
-  const printJobs = data?.data.data || [];
+  const printJobs = data?.data || [];
 
   return (
     <div className="py-[4.8rem] px-[4.5rem] bg-white">
-      <h1>In ấn</h1>
-      <h2>Thời gian</h2>
+      <p className="font-[700] text-[2.4rem]">In ấn</p>
+      <p className="font-[700] text-[1.6rem] mt-[3rem]">Thời gian</p>
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(handleFetchPrintingHistory, (errors) =>
@@ -97,40 +124,47 @@ export default function PrintingHistoryPage() {
         <table className="border-collapse border border-white w-full bg-primary-blue">
           <thead>
             <tr>
-              <th className="border border-white text-center p-[1.6rem] text-[2.4rem] text-white">
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
                 Thời gian
               </th>
-              <th className="border border-white text-center p-[1.6rem] text-[2.4rem] text-white">
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
                 Số bản
               </th>
-              <th className="border border-white text-center p-[1.6rem] text-[2.4rem] text-white">
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
                 File in
               </th>
-              <th className="border border-white text-center p-[1.6rem] text-[2.4rem] text-white">
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
                 Số lượng giấy
               </th>
-              <th className="border border-white text-center p-[1.6rem] text-[2.4rem] text-white">
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
                 Máy in
+              </th>
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
+                Trạng thái
               </th>
             </tr>
           </thead>
           <tbody>
             {printJobs.map((printing, index) => (
               <tr key={index}>
-                <td className="border border-white text-center text-[1.6rem] p-[1rem] text-white">
-                  {printing.date}
+                <td className="border border-white text-center text-[1.2rem] p-[1rem] text-white">
+                  {formatDate(printing.created_at)}
                 </td>
-                <td className="border border-white text-center text-[1.6rem] p-[1rem] text-white">
+                <td className="border border-white text-center text-[1.2rem] p-[1rem] text-white">
                   {printing.copies}
                 </td>
-                <td className="border border-white text-[1.6rem] p-[1rem] pl-[3rem] text-white">
-                  {printing.file_id}
+                <td className="border border-white text-[1.2rem] p-[1rem] text-white text-center">
+                  {printing.file.name}
                 </td>
-                <td className="border border-white text-[1.6rem] p-[1rem] pl-[3rem] text-white">
-                  {printing.page_size}
+                <td className="border border-white text-[1.2rem] p-[1rem]  text-white text-center">
+                  {printing.num_pages}
                 </td>
-                <td className="border border-white text-center text-[1.6rem] p-[1rem] text-white">
-                  {printing.printer_id}
+                <td className="border border-white text-center text-[1.2rem] p-[1rem] text-white">
+                  {printing.printer.location}
+                </td>
+                <td className="border border-white text-center text-[1.2rem] p-[1rem] text-white">
+                  {formatStatus(printing.print_status)}{" "}
+                  {/* Apply status formatting */}
                 </td>
               </tr>
             ))}
