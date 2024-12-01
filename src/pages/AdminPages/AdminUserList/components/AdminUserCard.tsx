@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UserModel } from "../../../../types/user.type";
 import { useContext } from "react";
 import { AdminContext } from "../../../../contexts/admin.context";
-import classNames from "classnames";
+import { classNames } from "primereact/utils";
 
 interface Props {
   user: UserModel;

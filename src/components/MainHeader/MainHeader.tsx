@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBell } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../../contexts/app.context";
@@ -10,7 +10,11 @@ export default function MainHeader() {
   const { isAuthenticated } = useContext(AppContext);
   const notifyqueryconfig = useNotifyQueryConfig();
   const { data } = notifyQuery.useListNotify(notifyqueryconfig);
-  const notifylist = data?.data || [];
+
+  const notifylist = useMemo(() => {
+    return data?.data || [];
+  }, [data?.data]);
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State to control dropdown visibility
   const [hasReadNotifications, setHasReadNotifications] = useState<boolean>(
     () => {
