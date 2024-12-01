@@ -1,4 +1,3 @@
-import { SuccessReponse } from "../types/common.type";
 import {
   PrintjobCreate,
   PrintjobModel,
@@ -12,10 +11,10 @@ const printjobApi = {
     return http.post<PrintjobModel>(url, data);
   },
   listPrintJob(params: PrintjobQueryConfig) {
-    return http.get<SuccessReponse<PrintjobModel[]>>(url, { params });
+    return http.get<PrintjobModel[]>(url, { params });
   },
   getPrintjobById(id: string) {
-    return http.get<SuccessReponse<PrintjobModel>>(`${url}/${id}`);
+    return http.get<PrintjobModel>(`${url}/${id}`);
   },
   deletePrintjob(ids: string[]) {
     return http.delete<string>(url, { data: ids });

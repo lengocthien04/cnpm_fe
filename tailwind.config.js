@@ -14,6 +14,9 @@ export default {
         "alert-red": "#E74C3C", // Custom alert red color
         "primary-background": "#FCF8F8", // Custom green color for success messages, etc.
         "secondary-gray": "#B0B0B0", // Secondary gray for borders or background elements
+        text: {
+          primary: "#0077B6",
+        },
       },
       spacing: {
         128: "32rem", // Adding custom spacing (e.g., for width or height)
@@ -29,6 +32,15 @@ export default {
       boxShadow: {
         primary: "0 4px 6px rgba(0, 0, 0, 0.1)", // Custom box shadow for cards or containers
       },
+    },
+    screens: {
+      mobileSmall: "320px",
+      mobileLarge: "425px",
+      tabletSmall: "640px",
+      tablet: "768px",
+      tabletLarge: "962px",
+      desktop: "1024px",
+      desktopLarge: "1440px",
     },
   },
   plugins: [],
