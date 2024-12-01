@@ -38,3 +38,5 @@ export const loginSchema = yup.object({
   password: yup.string().required("Password is required"),
 });
 export type LoginSchema = yup.InferType<typeof loginSchema>;
+
+export const addpageSchema = yup.object({});

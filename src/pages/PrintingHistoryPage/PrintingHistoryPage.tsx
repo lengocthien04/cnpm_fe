@@ -6,8 +6,6 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { convertToStringParams } from "../../utils/utils";
-import usePrintingHistoryQueryConfig from "../../hooks/queryConfigs/usePrintingHistoryQueryConfig";
-import { PrintingHistoryQueryConfig } from "../../types/printinghistory.type";
 import mainPath from "../../constants/path";
 import { formatDateToString } from "../../utils/date.util";
 import useQueryParams from "../../hooks/queryConfigs/useQueryParams";
@@ -18,22 +16,52 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, useForm } from "react-hook-form";
 import PrintingHistoryTimeSearch from "./children/PrintingHistoryTimeSearch";
+import printjobQuery from "../../hooks/queries/usePrintjobQuery";
+import usePrintjobQueryConfig from "../../hooks/queryConfigs/usePrintjobQueryConfig";
+import LoadingSection from "../../components/loading/LoadingSection";
+import { PrintjobQueryConfig } from "../../types/printjob.type";
+
+// Convert date to a readable format (e.g., '2024-12-01 02:14 AM')
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleString(); // You can format it further if needed
+};
+
+// Capitalize the first letter and replace underscores with spaces
+const formatStatus = (status: string): string => {
+  return status
+    .replace(/_/g, " ") // Replace underscores with spaces
+    .replace(/(?:^\w|[A-Z]|\b\w|\s+\w)/g, (match) => match.toUpperCase()); // Capitalize first letter of each word
+};
 
 const today = formatDateToString(new Date());
 
 export default function PrintingHistoryPage() {
-  // ! Clear url search on reload
   const [, setSearchParams] = useSearchParams();
+
+  // Use effect for resetting the search params only when the page is reloaded
   useEffect(() => {
     const isReload = performance.getEntriesByType("navigation").some((nav) => {
-      // 'navigate' is for first-time entries
       return (nav as PerformanceNavigationTiming).type === "reload";
     });
 
+    // Only update search params if it's a reload and params are not already set
     if (isReload) {
-      setSearchParams({ ...convertToStringParams() });
+      const currentParams = convertToStringParams();
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // Compare current params with existing params in the URL
+      const shouldUpdateParams = !Array.from(urlParams.entries()).every(
+        ([key, value]) => currentParams[key] === value
+      );
+
+      // Only update search params if different
+      if (shouldUpdateParams) {
+        setSearchParams(currentParams);
+      }
     }
-  });
+  }, [setSearchParams]); // Added dependency array so it runs once on mount
+
   const queryParam = useQueryParams();
   const paramStartDate = queryParam.date
     ? queryParam.date[0]
@@ -51,7 +79,7 @@ export default function PrintingHistoryPage() {
   });
   const { handleSubmit, getValues } = methods;
 
-  const printingHistorQueryConfig = usePrintingHistoryQueryConfig();
+  const printjobQueryConfig = usePrintjobQueryConfig();
   const navigate = useNavigate();
 
   // Handle fetch deliveries
@@ -59,8 +87,8 @@ export default function PrintingHistoryPage() {
     const startDate = getValues("date_start") || today;
     const endDate = getValues("date_end") || today;
 
-    const newPrintingHistoryQueryConfig: PrintingHistoryQueryConfig = {
-      ...printingHistorQueryConfig,
+    const newPrintjobQueryConfig: PrintjobQueryConfig = {
+      ...printjobQueryConfig,
       ...(startDate &&
         endDate && {
           date: [startDate, endDate],
@@ -69,53 +97,19 @@ export default function PrintingHistoryPage() {
     navigate({
       pathname: mainPath.printinghistory,
       search: createSearchParams(
-        newPrintingHistoryQueryConfig as URLSearchParamsInit
+        newPrintjobQueryConfig as URLSearchParamsInit
       ).toString(),
     });
   };
 
-  const printJobs = [
-    {
-      time: "17/06/2024 10:30 - 11:00",
-      size: "A4",
-      file: "CNPM.pdf",
-      pages: 78,
-      printer: "001",
-    },
-    {
-      time: "15/06/2024 10:30 - 11:00",
-      size: "A4",
-      file: "LSD.pdf",
-      pages: 45,
-      printer: "005",
-    },
-    {
-      time: "12/06/2024 10:30 - 11:00",
-      size: "A4",
-      file: "CNPM.pdf",
-      pages: 354,
-      printer: "006",
-    },
-    {
-      time: "11/06/2024 10:30 - 11:00",
-      size: "A4",
-      file: "LSD.pdf",
-      pages: 345,
-      printer: "007",
-    },
-    {
-      time: "01/06/2024 10:30 - 11:00",
-      size: "A4",
-      file: "CNPM.pdf",
-      pages: 45,
-      printer: "001",
-    },
-  ];
+  const { data, isLoading } =
+    printjobQuery.useListPrintjob(printjobQueryConfig);
+  const printJobs = data?.data || [];
 
   return (
     <div className="py-[4.8rem] px-[4.5rem] bg-white">
-      <h1>In ấn</h1>
-      <h2>Thời gian</h2>
+      <p className="font-[700] text-[2.4rem]">In ấn</p>
+      <p className="font-[700] text-[1.6rem] mt-[3rem]">Thời gian</p>
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(handleFetchPrintingHistory, (errors) =>
@@ -125,48 +119,58 @@ export default function PrintingHistoryPage() {
           <PrintingHistoryTimeSearch />
         </form>
       </FormProvider>
-      <table className="border-collapse border border-white w-full bg-primary-blue">
-        <thead>
-          <tr>
-            <th className="border border-white text-center p-[1.6rem] text-[2.4rem] text-white">
-              Thời gian
-            </th>
-            <th className="border border-white text-center p-[1.6rem] text-[2.4rem] text-white">
-              Kích thước in
-            </th>
-            <th className="border border-white text-center p-[1.6rem] text-[2.4rem] text-white">
-              File in
-            </th>
-            <th className="border border-white text-center p-[1.6rem] text-[2.4rem] text-white">
-              Số lượng giấy
-            </th>
-            <th className="border border-white text-center p-[1.6rem] text-[2.4rem] text-white">
-              Máy in
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {printJobs.map((printing, index) => (
-            <tr key={index}>
-              <td className="border border-white text-center text-[1.6rem] p-[1rem] text-white">
-                {printing.time}
-              </td>
-              <td className="border border-white text-center text-[1.6rem] p-[1rem] text-white">
-                {printing.size}
-              </td>
-              <td className="border border-white text-[1.6rem] p-[1rem] pl-[3rem] text-white">
-                {printing.file}
-              </td>
-              <td className="border border-white text-[1.6rem] p-[1rem] pl-[3rem] text-white">
-                {printing.pages}
-              </td>
-              <td className="border border-white text-center text-[1.6rem] p-[1rem] text-white">
-                {printing.printer}
-              </td>
+      {isLoading && <LoadingSection />}
+      {data && (
+        <table className="border-collapse border border-white w-full bg-primary-blue">
+          <thead>
+            <tr>
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
+                Thời gian
+              </th>
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
+                Số bản
+              </th>
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
+                File in
+              </th>
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
+                Số lượng giấy
+              </th>
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
+                Máy in
+              </th>
+              <th className="border border-white text-center p-[1.6rem] text-[2rem] text-white">
+                Trạng thái
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {printJobs.map((printing, index) => (
+              <tr key={index}>
+                <td className="border border-white text-center text-[1.2rem] p-[1rem] text-white">
+                  {formatDate(printing.created_at)}
+                </td>
+                <td className="border border-white text-center text-[1.2rem] p-[1rem] text-white">
+                  {printing.copies}
+                </td>
+                <td className="border border-white text-[1.2rem] p-[1rem] text-white text-center">
+                  {printing.file.name}
+                </td>
+                <td className="border border-white text-[1.2rem] p-[1rem]  text-white text-center">
+                  {printing.num_pages}
+                </td>
+                <td className="border border-white text-center text-[1.2rem] p-[1rem] text-white">
+                  {printing.printer.location}
+                </td>
+                <td className="border border-white text-center text-[1.2rem] p-[1rem] text-white">
+                  {formatStatus(printing.print_status)}{" "}
+                  {/* Apply status formatting */}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

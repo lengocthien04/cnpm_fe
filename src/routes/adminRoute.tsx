@@ -5,6 +5,12 @@ import mainPath, { adminPath } from "../constants/path";
 import AdminLayout from "../layouts/AdminLayout";
 import AdminPages from "../pages/AdminPages/AdminPages";
 import AdminUserDetail from "../pages/AdminPages/AdminUserDetail";
+import AdminUserList from "../pages/AdminPages/AdminUserList";
+import AdminUserCreate from "../pages/AdminPages/AdminUserCreate";
+import AdminPrinterList from "../pages/AdminPages/AdminPrinterList";
+import AdminPrinterCreate from "../pages/AdminPages/AdminPrinterCreate";
+import AdminPrintingSettings from "../pages/AdminPages/AdminPrintingSettings";
+import AdminReport from "../pages/AdminPages/AdminReport";
 
 function AdminRouteWrapper() {
   const { isAuthenticated, profile } = useContext(AppContext);
@@ -25,22 +31,33 @@ const AdminRoute: RouteObject = {
   element: <AdminRouteWrapper />,
   children: [
     { path: "", element: <AdminPages /> },
-    {},
     {
       path: adminPath.userList,
+      element: <AdminUserList />,
+    },
+    {
+      path: adminPath.createUser,
+      element: <AdminUserCreate />,
     },
     {
       path: adminPath.userInfo,
       element: <AdminUserDetail />,
     },
     {
-      path: adminPath.createUser,
+      path: adminPath.printers,
+      element: <AdminPrinterList />,
     },
     {
-      path: adminPath.printerConfig,
+      path: adminPath.createPrinters,
+      element: <AdminPrinterCreate />,
+    },
+    {
+      path: adminPath.printingSettings,
+      element: <AdminPrintingSettings />,
     },
     {
       path: adminPath.report,
+      element: <AdminReport />,
     },
   ],
 };

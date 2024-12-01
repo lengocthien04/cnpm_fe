@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useState, useContext, Fragment } from "react";
 import AddPage from "./AddPage/AddPage";
+import { AppContext } from "../../contexts/app.context";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import userApi from "../../api/user.api";
+import DialogPopup from "../../components/DialogPopup";
+import LoadingSection from "../../components/loading/LoadingSection";
 
 export default function PaymentPage() {
   const [pages, setPages] = useState<{ page: number; size: string }[]>([]);
+  const { profile } = useContext(AppContext); // Getting profile info for user ID
+  const queryClient = useQueryClient();
+
+  const calculateTotalPages = (): number => {
+    return pages.reduce((total, page) => total + page.page, 0);
+  };
 
   const calculateTotalPrice = (): number => {
-    // Define a baseline price for A4
     const basePrice = 100;
-
-    // Map sizes to a multiplier with respect to A4
     const sizeMultiplier: { [key: string]: number } = {
       A5: 0.5,
       A4: 1,
@@ -18,16 +26,17 @@ export default function PaymentPage() {
       A0: 16,
     };
 
-    // Calculate total price
-    const totalPrice = pages.reduce((total, page) => {
-      console.log(page);
-      const multiplier = sizeMultiplier[page.size]; // Default to A4 if size is not defined
-      return total + page.page * basePrice * multiplier; // Ensure page.page reflects the count of pages
+    return pages.reduce((total, page) => {
+      const multiplier = sizeMultiplier[page.size] || 1;
+      return total + page.page * basePrice * multiplier;
     }, 0);
-
-    return totalPrice;
   };
+
   const [selectedMethod, setSelectedMethod] = useState<string>("");
+  const [excutingDialog, setExcutingDialog] = useState<boolean>(false); // Dialog visibility
+  const [excuting, setExcuting] = useState<boolean>(false); // Loading state
+  const [success, setSuccess] = useState<boolean>(false); // Success state
+  const [error, setError] = useState<boolean>(false); // Error state
 
   const paymentMethods = [
     { id: "cards", name: "Cards" },
@@ -37,6 +46,45 @@ export default function PaymentPage() {
 
   const handleSelect = (method: string) => {
     setSelectedMethod(method);
+  };
+
+  // Mutation to add pages
+  const addPagesMutation = useMutation({
+    mutationFn: userApi.addPages,
+    onMutate: () => {
+      setExcutingDialog(true); // Show the dialog when mutation starts
+      setExcuting(true); // Set loading state to true
+    },
+    onSuccess: () => {
+      setExcuting(false); // Hide loading
+      setSuccess(true); // Show success message
+      queryClient.invalidateQueries({ queryKey: ["pages"] });
+    },
+    onError: () => {
+      setExcuting(false); // Hide loading
+      setError(true); // Show error message
+    },
+    onSettled: () => {
+      setTimeout(() => {
+        setExcutingDialog(false); // Hide the dialog after some time (optional)
+      }, 1000);
+    },
+  });
+
+  const handlePayment = () => {
+    if (!profile?.id) {
+      console.error("User ID is not available.");
+      return;
+    }
+
+    const pages_number = calculateTotalPages(); // This is the number of pages
+    const userId = profile.id;
+
+    // Trigger mutation to add pages
+    addPagesMutation.mutate({
+      id: userId,
+      pages: pages_number,
+    });
   };
 
   return (
@@ -53,7 +101,7 @@ export default function PaymentPage() {
             <p>Tổng cộng: </p>
             <p>{calculateTotalPrice()} Đ</p>
           </div>
-          <div className="flex flex-row justify-start gap-[3rem] text-[2.4rem] items-center ">
+          <div className="flex flex-row justify-start gap-[3rem] text-[2.4rem] items-center">
             <p>Phương thức thanh toán</p>
             <select
               value={selectedMethod}
@@ -71,11 +119,38 @@ export default function PaymentPage() {
               ))}
             </select>
           </div>
-          <button className="w-[20rem] text-[2.4rem] font-bold text-white bg-[#4B4DD6] p-2  hover:bg-blue-100 hover:text-blue-300 rounded-md">
+          <button
+            className="w-[20rem] text-[2.4rem] font-bold text-white bg-[#4B4DD6] p-2 hover:bg-blue-100 hover:text-blue-300 rounded-md"
+            onClick={handlePayment}
+          >
             Thanh toán
           </button>
         </div>
       </div>
+
+      {/* Dialog Popup for status */}
+      <DialogPopup
+        isOpen={excutingDialog}
+        handleClose={() => {
+          setExcutingDialog(false);
+        }}
+      >
+        {excuting && <LoadingSection />}
+        {!excuting && (
+          <Fragment>
+            {success && (
+              <p className="text-center text-xl font-medium uppercase leading-6 text-successGreen">
+                Đã mua thành công, mong bạn tiếp tục in
+              </p>
+            )}
+            {error && (
+              <p className="text-center text-xl font-medium uppercase leading-6 text-alertRed">
+                Đã có lỗi xảy ra, vui lòng thử lại
+              </p>
+            )}
+          </Fragment>
+        )}
+      </DialogPopup>
     </div>
   );
 }

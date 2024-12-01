@@ -3,7 +3,7 @@ const mainPath = {
   home: "/",
   login: "/login",
   printing: "/printing",
-  printinghistory: "/printinghistory",
+  printinghistory: "/printjob",
   payment: "/payment",
   userprofile: "/userprofile",
 };
@@ -12,9 +12,11 @@ export default mainPath;
 
 export const adminPath = {
   admin: "/admin",
-  userList: "/admin/userinfo",
-  userInfo: "/admin/userinfo/:userinfosId",
-  printerConfig: "admin/printerconfig",
+  userList: "/admin/user",
+  userInfo: "/admin/user/:id",
+  createUser: "/admin/user/create",
+  printers: "/admin/printer",
+  createPrinters: "/admin/printer/create",
+  printingSettings: "admin/settings",
   report: "admin/report",
-  createUser: "/admin/createuser",
 };
