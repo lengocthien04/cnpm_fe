@@ -1,5 +1,5 @@
 import { SQLModel } from "./common.type";
-import { FileModel } from "./file.type";
+import { FileUploadResponse } from "./file.type";
 import { PrinterModel } from "./printer.type";
 
 export interface PrintjobCreate {
@@ -13,7 +13,7 @@ export interface PrintjobCreate {
 }
 
 export interface PrintjobModel extends PrintjobCreate, SQLModel {
-  file: FileModel;
+  file: FileUploadResponse;
   num_pages: number;
   printer: PrinterModel;
   print_status: string;

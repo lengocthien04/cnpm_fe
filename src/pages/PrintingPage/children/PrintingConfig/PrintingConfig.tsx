@@ -96,6 +96,7 @@ export default function PrintingConfig({ chosenprinter }: Props) {
 
     let uploadedFilesCount = 0;
 
+
     const uploadAndCreatePrintJob = (file: File) => {
       const uploadBody = { file };
       uploadMaterialMutation.mutate(uploadBody, {
@@ -104,9 +105,10 @@ export default function PrintingConfig({ chosenprinter }: Props) {
           setExcuting(false);
           setSuccess(false);
           setError(true);
+          setFiles([])
         },
         onSuccess: (response) => {
-          const fileId = response.data.id;
+          const fileId = response.data.file.id;
 
           const printJobBody = {
             file_id: fileId,
@@ -127,6 +129,7 @@ export default function PrintingConfig({ chosenprinter }: Props) {
                 setSuccess(true);
                 setError(false);
 
+
                 queryClient.invalidateQueries({ queryKey: ["file"] });
                 queryClient.invalidateQueries({ queryKey: ["printjob"] });
               }
@@ -136,6 +139,7 @@ export default function PrintingConfig({ chosenprinter }: Props) {
               setExcuting(false);
               setSuccess(false);
               setError(true);
+              setFiles([])
             },
           });
         },
