@@ -108,7 +108,7 @@ export default function PrintingHistoryPage() {
 
   return (
     <div className="py-[4.8rem] px-[4.5rem] bg-white">
-      <p className="font-[700] text-[2.4rem]">In ấn</p>
+      <p className="font-[700] text-[2.4rem]">Lịch sử</p>
       <p className="font-[700] text-[1.6rem] mt-[3rem]">Thời gian</p>
       <FormProvider {...methods}>
         <form

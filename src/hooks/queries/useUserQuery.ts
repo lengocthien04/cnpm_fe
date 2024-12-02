@@ -7,6 +7,12 @@ const useListUsers = () => {
     queryFn: userApi.listUsers, // Assuming `listUsers` doesn't require parameters
   });
 };
+const useGetme = () => {
+  return useQuery({
+    queryKey: ["user"], // No parameters for the query
+    queryFn: userApi.getMe, // Assuming `listUsers` doesn't require parameters
+  });
+};
 
 const useGetUserById = (id: string) => {
   return useQuery({
@@ -65,6 +71,7 @@ const useDeleteUsers = () => {
 const userQuery = {
   useListUsers,
   useGetUserById,
+  useGetme,
   mutation: {
     useCreateMultipleUsers,
     useUserLogin,
