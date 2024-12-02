@@ -14,6 +14,7 @@ export default function MainHeader() {
   const { data, refetch } = useQuery({
     queryKey: ["notify"],
     queryFn: () => userApi.getNotifications(),
+    enabled: isAuthenticated,
   });
 
   const notifylist = useMemo(() => {
@@ -134,7 +135,7 @@ export default function MainHeader() {
         </div>
       ) : (
         <Link
-          className="text-[2.4rem] font-bold text-white bg-[#4B4DD6] p-4 hover:bg-blue-100 hover:text-blue-300 rounded-md"
+          className="text-2xl font-bold text-white bg-[#4B4DD6] p-4 hover:bg-blue-100 hover:text-blue-300 rounded-md"
           to={mainPath.login}
         >
           Đăng nhập
