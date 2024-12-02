@@ -147,7 +147,6 @@ export default function PrintingConfig({ chosenprinter }: Props) {
 
     setFiles([]); // Clear the file list after submission
   };
-  console.log(duplex);
   return (
     <div className="mt-[14px] flex">
       <div className="pl-[32px] w-1/2 my-[40px] border-r border-black">
