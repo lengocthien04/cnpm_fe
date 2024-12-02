@@ -1,5 +1,4 @@
 import { SQLModel } from "./common.type";
-import { FileUploadResponse } from "./file.type";
 import { PrinterModel } from "./printer.type";
 
 export interface PrintjobCreate {
@@ -12,8 +11,16 @@ export interface PrintjobCreate {
   date?: string;
 }
 
+export interface PrintjobFile {
+  name: string;
+  mimeType: string;
+  total_pages: string;
+  path: string;
+  id: string;
+}
+
 export interface PrintjobModel extends PrintjobCreate, SQLModel {
-  file: FileUploadResponse;
+  file: PrintjobFile;
   num_pages: number;
   printer: PrinterModel;
   print_status: string;
