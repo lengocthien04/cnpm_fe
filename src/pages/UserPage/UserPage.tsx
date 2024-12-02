@@ -12,7 +12,7 @@ export default function UserPage() {
   const profile = data?.data;
   return (
     <div className="mt-[14px] px-[40px] min-h-[70vh] py-[1rem]">
-      <p className="font-bold text-[40px] py-[3rem] ">Thông tin</p>
+      <p className="font-bold text-[40px] py-[3rem]">Thông tin</p>
 
       <div className="mb-[24px]">
         <div className="bg-primary-blue px-4 py-2">
@@ -27,34 +27,38 @@ export default function UserPage() {
           </div>
 
           <div className="px-[32px] pt-[16px]">
-            <div key={profile?.name}>
-              <div className="flex text-[16px] mb-8">
-                <p className="font-bold mr-4 w-[200px]">Tên người dùng: </p>
-                <p>{profile?.name}</p>
-              </div>
+            {data ? (
+              <div>
+                <div className="flex text-[16px] mb-8">
+                  <p className="font-bold mr-4 w-[200px]">Tên người dùng: </p>
+                  <p>{profile?.name}</p>
+                </div>
 
-              <div className="flex text-[16px] mb-8">
-                <p className="font-bold mr-4 w-[200px]">Mã số sinh viên: </p>
-                <p>{profile?.username}</p>
-              </div>
+                <div className="flex text-[16px] mb-8">
+                  <p className="font-bold mr-4 w-[200px]">Mã số sinh viên: </p>
+                  <p>{profile?.username}</p>
+                </div>
 
-              <div className="flex text-[16px] mb-8">
-                <p className="font-bold mr-4 w-[200px]">Khoa: </p>
-                <p>Khoa học máy tính</p>
-              </div>
+                <div className="flex text-[16px] mb-8">
+                  <p className="font-bold mr-4 w-[200px]">Khoa: </p>
+                  <p>Khoa học máy tính</p>
+                </div>
 
-              <div className="flex text-[16px] mb-8">
-                <p className="font-bold mr-4 w-[200px]">Số trang còn lại: </p>
-                <p>{profile?.available_pages}</p>
-              </div>
+                <div className="flex text-[16px] mb-8">
+                  <p className="font-bold mr-4 w-[200px]">Số trang còn lại: </p>
+                  <p>{profile?.available_pages}</p>
+                </div>
 
-              <a
-                className="bg-primary-blue px-[12px] py-[6px] text-white hover:cursor-pointer hover:text-black hover:opacity-85 rounded-[10px] "
-                href={mainPath.payment}
-              >
-                Mua thêm trang
-              </a>
-            </div>
+                <a
+                  className="bg-primary-blue px-[12px] py-[6px] text-white hover:cursor-pointer hover:text-black hover:opacity-85 rounded-[10px]"
+                  href={mainPath.payment}
+                >
+                  Mua thêm trang
+                </a>
+              </div>
+            ) : (
+              <p>No profile data available. Try again later.</p>
+            )}
           </div>
         </div>
       </div>

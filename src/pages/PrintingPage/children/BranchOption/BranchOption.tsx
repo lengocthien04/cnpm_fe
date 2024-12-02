@@ -18,21 +18,20 @@ export default function BranchOption({
     { name: "Dĩ An", count: count_cs2 },
   ];
   return (
-    <div>
-      <>
-        <div className="pt-[48px] pl-[48px] pb-[24px]">
-          <p className="font-[inter] font-semibold text-[24px] leading-[28.8px] text-[#1E1E1E]">
-            In ấn
-          </p>
-          <p className="font-[inter] font-normal text-[20px] leading-[24px] text-[#1E1E1E]">
-            Chọn cơ sở in
-          </p>
-        </div>
-
+    <div className="min-h-[60vh]">
+      <div className="pt-[48px] px-[48px] pb-[24px]">
+        <p className="font-[inter] font-[700] text-[2.4rem] text-[#1E1E1E]">
+          In ấn
+        </p>
+        <p className="font-[inter] font-[700] text-[1.6rem] text-[#1E1E1E]">
+          Chọn cơ sở in
+        </p>
+      </div>
+      <div className="flex flex-row gap-[2rem] mx-[3rem] justify-between">
         {branches.map((branch) => (
           <div
             key={branch.name}
-            className="ml-[48px] mb-[48px] mr-[48px] border border-solid border-black rounded-[8px]"
+            className=" w-[50vw] mb-[48px] bg-primary-background border border-solid border-black rounded-[8px] "
           >
             <p className="font-[inter] font-semibold text-[24px] leading-[28.8px] text-[#1E1E1E] mb-[12px] pt-[16px] pl-[16px]">
               {branch.name}
@@ -42,7 +41,7 @@ export default function BranchOption({
             </p>
             <div className="pl-[16px] pb-[16px]">
               <button
-                className="p-[6px] bg-[#4B4DD6] rounded-[8px] w-[40px] h-[40px] text-white hover:opacity-80"
+                className="p-[6px] bg-[#4B4DD6] rounded-[8px] w-[40px] h-[40px] text-white hover:bg-[#7a7cda]"
                 onClick={() => setbranchname(branch.name)}
               >
                 In
@@ -50,7 +49,7 @@ export default function BranchOption({
             </div>
           </div>
         ))}
-      </>
+      </div>
     </div>
   );
 }

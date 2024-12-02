@@ -8,7 +8,7 @@ import LoadingSection from "../../components/loading/LoadingSection";
 
 export default function PaymentPage() {
   const [pages, setPages] = useState<{ page: number; size: string }[]>([]);
-  const { profile } = useContext(AppContext); // Getting profile info for user ID
+  const { profile } = useContext(AppContext);
   const queryClient = useQueryClient();
 
   const calculateTotalPages = (): number => {
@@ -33,10 +33,10 @@ export default function PaymentPage() {
   };
 
   const [selectedMethod, setSelectedMethod] = useState<string>("");
-  const [excutingDialog, setExcutingDialog] = useState<boolean>(false); // Dialog visibility
-  const [excuting, setExcuting] = useState<boolean>(false); // Loading state
-  const [success, setSuccess] = useState<boolean>(false); // Success state
-  const [error, setError] = useState<boolean>(false); // Error state
+  const [excutingDialog, setExcutingDialog] = useState<boolean>(false);
+  const [excuting, setExcuting] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const paymentMethods = [
     { id: "cards", name: "Cards" },
@@ -48,24 +48,24 @@ export default function PaymentPage() {
     setSelectedMethod(method);
   };
 
-  // Mutation to add pages
   const addPagesMutation = useMutation({
     mutationFn: userApi.addPages,
     onMutate: () => {
-      setExcutingDialog(true); // Show the dialog when mutation starts
-      setExcuting(true); // Set loading state to true
+      setExcutingDialog(true);
+      setExcuting(true);
     },
     onSuccess: () => {
-      setExcuting(false); // Hide loading
-      setSuccess(true); // Show success message
+      setExcuting(false);
+      setSuccess(true);
       queryClient.invalidateQueries({ queryKey: ["pages"] });
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
       setPages([]);
     },
     onError: () => {
-      setExcuting(false); // Hide loading
-      setError(true); // Show error message
+      setExcuting(false);
+      setError(true);
     },
+
   });
 
   const handlePayment = () => {
@@ -74,12 +74,9 @@ export default function PaymentPage() {
       return;
     }
 
-    const pages_number = calculateTotalPages(); // This is the number of pages
+    const pages_number = calculateTotalPages();
     const userId = profile.id;
 
-    console.log(userId, pages_number);
-
-    // Trigger mutation to add pages
     addPagesMutation.mutate({
       id: userId,
       pages: pages_number,
@@ -89,9 +86,9 @@ export default function PaymentPage() {
   return (
     <div className="flex flex-col py-[4.8rem] bg-white justify-between min-h-[80vh]">
       <div className="flex justify-start p-[3rem] h-inherit">
-        <div className="min-h-[50vh] font-[700] text-[2.4rem] border-r-2 border-black w-[50%]">
-          <p>In ấn</p>
-          <p>Mua giấy in</p>
+        <div className="min-h-[50vh]  border-r-2 border-black w-[50%]">
+          <p className="font-[700] text-[2.4rem]">In ấn</p>
+          <p className="font-[700] text-[1.6rem]">Mua giấy in</p>
           <AddPage setPages={setPages} />
         </div>
         <div className="flex flex-col min-h-[50vh] font-[700] text-[2.4rem] pl-[3rem] w-[50%] gap-[3rem]">
@@ -127,12 +124,9 @@ export default function PaymentPage() {
         </div>
       </div>
 
-      {/* Dialog Popup for status */}
       <DialogPopup
         isOpen={excutingDialog}
-        handleClose={() => {
-          setExcutingDialog(false);
-        }}
+        handleClose={() => setExcutingDialog(false)}
       >
         {excuting && <LoadingSection />}
         {!excuting && (
