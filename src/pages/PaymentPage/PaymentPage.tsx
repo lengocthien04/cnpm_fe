@@ -58,16 +58,14 @@ export default function PaymentPage() {
       setExcuting(false);
       setSuccess(true);
       queryClient.invalidateQueries({ queryKey: ["pages"] });
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      setPages([]);
     },
     onError: () => {
       setExcuting(false);
       setError(true);
     },
-    onSettled: () => {
-      setTimeout(() => {
-        setExcutingDialog(false);
-      }, 1000);
-    },
+
   });
 
   const handlePayment = () => {

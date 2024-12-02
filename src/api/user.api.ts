@@ -6,6 +6,7 @@ import {
   UserModel,
 } from "../types/user.type";
 import { PrintjobModel } from "../types/printjob.type";
+import { NotifyModel } from "../types/notify.type";
 
 const url = "/v1/user";
 
@@ -31,6 +32,12 @@ const userApi = {
   listUsers() {
     return http.get<UserModel[]>(`${url}/list`);
   },
+  getNotifications() {
+    return http.get<NotifyModel[]>(`${url}/notifications`);
+  },
+  getGeneralNotifications() {
+    return http.get<NotifyModel[]>(`${url}/general-notifications`);
+  },
   listUserPrintLogs() {
     return http.get<PrintjobModel[]>(`${url}/printlogs`);
   },
@@ -38,7 +45,8 @@ const userApi = {
     return http.get<UserModel>(`${url}/${id}`);
   },
   addPages(body: UserAddPage) {
-    return http.post<Partial<UserModel>>(`${url}/add-pages`, body);
+    console.log(body);
+    return http.post<string>(`${url}/add-pages`, body);
   },
 };
 

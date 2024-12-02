@@ -23,7 +23,7 @@ const useCreateMultiplePrintjob = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: printjobApi.createMultiplePrintjobs,
+    mutationFn: printjobApi.createPrintjob,
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["printjob"],

@@ -17,6 +17,6 @@ export const adminPath = {
   createUser: "/admin/user/create",
   printers: "/admin/printer",
   createPrinters: "/admin/printer/create",
-  printingSettings: "admin/settings",
-  report: "admin/report",
+  printingSettings: "/admin/settings",
+  report: "/admin/report",
 };

@@ -10,12 +10,18 @@ export default function PrintingPage() {
   const [branch, setBranch] = useState<string>("");
   const [chosenPrinter, setChosenPrinter] = useState<string>("");
 
-  const printersCS2 = Array.isArray(data?.data)
-    ? data.data.filter((printer) => printer.location.includes("CS2"))
-    : [];
-  const printersCS1 = Array.isArray(data?.data)
-    ? data.data.filter((printer) => printer.location.includes("CS1"))
-    : [];
+  const printers = data?.data || [];
+  const availablePrinters = printers.filter((printer) => {
+    return printer.status !== "in_maintain";
+  });
+
+  const printersCS2 = availablePrinters.filter((printer) =>
+    printer.location.includes("CS2")
+  );
+
+  const printersCS1 = availablePrinters.filter((printer) =>
+    printer.location.includes("CS1")
+  );
 
   // Count available printers for each location without changing the original filter
   const availablePrintersCS2 = printersCS2.filter(

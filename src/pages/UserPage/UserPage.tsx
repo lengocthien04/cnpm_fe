@@ -1,28 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useEffect } from "react";
-import { AppContext } from "../../contexts/app.context";
 import mainPath from "../../constants/path";
-import userQuery from "../../hooks/queries/useUserQuery"; // Your query hooks
+import { useQuery } from "@tanstack/react-query";
+import userApi from "../../api/user.api";
 
 export default function UserPage() {
-  const { profile, setProfile } = useContext(AppContext);
-  const { data, isLoading, isError } = userQuery.useGetme(); // Use the query here
-
-  useEffect(() => {
-    if (data && profile?.id == data?.data.id) {
-      setProfile(data.data); // Update the context if data differs from current profile
-    }
-  }, [data, profile, setProfile]);
-
-  if (isLoading) {
-    return <p>Loading user information...</p>; // Handle loading state
-  }
-
-  if (isError) {
-    return <p>Error loading user information. Please try again later.</p>; // Handle error state
-  }
-
+  const { data } = useQuery({
+    queryKey: ["user-profile"],
+    queryFn: () => userApi.getMe(),
+  });
+  const profile = data?.data;
   return (
     <div className="mt-[14px] px-[40px] min-h-[70vh] py-[1rem]">
       <p className="font-bold text-[40px] py-[3rem]">Thông tin</p>
