@@ -147,7 +147,7 @@ export default function PrintingConfig({ chosenprinter }: Props) {
 
     setFiles([]); // Clear the file list after submission
   };
-
+  console.log(duplex);
   return (
     <div className="mt-[14px] flex">
       <div className="pl-[32px] w-1/2 my-[40px] border-r border-black">
@@ -256,7 +256,7 @@ export default function PrintingConfig({ chosenprinter }: Props) {
           <select
             className="text-[28px] font-[inter] bg-[#7373DC] text-white w-1/2 p-4 rounded-[8px]"
             value={duplex ? "2" : "1"}
-            onChange={(e) => setDuplex(e.target.value === "1")} // Set duplex as boolean
+            onChange={(e) => setDuplex(e.target.value == '2')} // Set duplex as boolean
           >
             <option value="1">1 Mặt</option>
             <option value="2">2 Mặt</option>
