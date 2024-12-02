@@ -16,7 +16,6 @@ export default function PrintingConfig({ chosenprinter }: Props) {
   const [excuting, setExcuting] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const [pageSize, setPageSize] = useState<number[]>([210, 297]); // Default value for A4 size
   const [duplex, setDuplex] = useState<boolean>(false); // Default value for duplex
   const [copies, setCopies] = useState<number>(1); // Default value for copies
   const { profile } = useContext(AppContext);
@@ -39,6 +38,17 @@ export default function PrintingConfig({ chosenprinter }: Props) {
     A1: [594, 841],
     A0: [841, 1189],
   };
+  const [pageSize, setPageSize] = useState<number[]>([210, 297]); // Default value for A4 size
+
+  const pageSizeStringMap: { [key: string]: string } = {
+    A5: 'A5',
+    A4: 'A4',
+    A3: 'A3',
+    A2: 'A2',
+    A1: 'A1',
+    A0: 'A0',
+  };
+  const [pageSizeString, setPageSizeString] = useState<string>(pageSizeStringMap['A5']); // Default value for A4 size
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -218,16 +228,18 @@ export default function PrintingConfig({ chosenprinter }: Props) {
           <select
             className="text-[28px] font-[inter] bg-[#7373DC] text-white w-1/2 p-4 rounded-[8px]"
             value={
-              pageSize === pageSizeMap.A4
-                ? "A4"
-                : pageSize === pageSizeMap.A3
-                  ? "A3"
-                  : "A5"
+
+              pageSizeString
             } // Mapping number[] back to text
-            onChange={(e) =>
+            onChange={(e) => {
               setPageSize(
                 pageSizeMap[e.target.value as keyof typeof pageSizeMap]
               )
+              setPageSizeString(
+                pageSizeStringMap[e.target.value as keyof typeof pageSizeMap]
+
+              )
+            }
             }
           >
             <option value="A5">A5</option>
